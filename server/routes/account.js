@@ -1,31 +1,43 @@
 var express = require('express')
 var router = express.Router()
 var controllers = require('../controllers')
+var bcrypt = require('bcryptjs')
 
-router.post('/:action', function(req, res, next){
+
+router.post('/:action', function (req, res, next) {
 
     var credentials = req.body
-    controllers.profile.find({email: credentials.email}, true)
-    .then(function(profiles){
-        if(profiles.length== 0){
+    controllers.profile.find({
+            email: credentials.email
+        }, true)
+        .then(function (profiles) {
+            if (profiles.length == 0) {
+                res.json({
+                    confirmation: 'fail',
+                    message: 'Profile not found'
+                })
+                return
+            }
+            var profile = profiles[0]
+            var passwordCorrect = bcrypt.compareSync(credentials.password, profile.password)
+            if (passwordCorrect == false) {
+                res.json({
+                    confirmation: 'fail',
+                    message: 'Incorrect password'
+                })
+                return
+            }
+            res.json({
+                confirmation: 'success',
+                profile: profile.summary()
+            })
+        })
+        .catch(function (err) {
             res.json({
                 confirmation: 'fail',
-                message: 'Profile not found'
+                message: err
             })
-            return
-        }
-        var profile = profiles[0]
-        res.json({
-            confirmation: 'success',
-            profile: profile
         })
-    })
-    .catch(function(err){
-        res.json({
-            confirmation: 'fail',
-            message: err
-        })
-    })
 
 
 })
