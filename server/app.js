@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
 require('dotenv').config()
+var sessions = require('client-sessions')
+
 
 var index = require('./routes/index');
 var api = require('./routes/api');
@@ -40,6 +42,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(sessions({
+  cookieName: 'session',
+  secret: process.env.SESSION_SECRET,
+  duration: 1000*60*60*24*7,
+  activeDuration: 0
+}))
 
 app.use('/', index);
 app.use('/api', api);

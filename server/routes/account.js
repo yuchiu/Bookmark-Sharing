@@ -2,10 +2,9 @@ var express = require('express')
 var router = express.Router()
 var controllers = require('../controllers')
 var bcrypt = require('bcryptjs')
-
+var utils = require('../utils')
 
 router.post('/:action', function (req, res, next) {
-
     var credentials = req.body
     controllers.profile.find({
             email: credentials.email
@@ -27,9 +26,17 @@ router.post('/:action', function (req, res, next) {
                 })
                 return
             }
+            // create a signed token
+            var token = utils.JWT.sign({
+                id: profile._id
+            }, process.env.TOKEN_SECRET)
+
+            req.session.token = token
+
             res.json({
                 confirmation: 'success',
-                profile: profile.summary()
+                profile: profile.summary(),
+                token: token
             })
         })
         .catch(function (err) {
