@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>{{ title }}</title>
+  <title>Bookmark</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
@@ -23,15 +23,7 @@
 </body>
 <h1>Create Bookmark</h1>
 <form action="/api/bookmark" method="post">
-  <input type="text" name="profile" placeholder="profile" />
-  <br/>
   <input type="text" name="url" placeholder="url" />
-  <br/>
-  <input type="text" name="title" placeholder="title" />
-  <br/>
-  <input type="text" name="description" placeholder="description" />
-  <br/>
-  <input type="text" name="image" placeholder="image" />
   <br/>
   <button type="submit">Send</button>
   <br/>
