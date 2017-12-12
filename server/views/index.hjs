@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <h1>Create Profile</h1>
+  <h1>Register</h1>
   <form action="/api/profile" method="post">
     <input type="text" name="firstName" placeholder="first name" />
     <br/>
@@ -17,17 +17,26 @@
     <br/>
     <input type="password" name="password" placeholder="password" />
     <br/>
-    <button type="submit">Send</button>
+    <input type="submit" value="Register"/>
     <br/>
   </form>
-</body>
-<h1>Create Bookmark</h1>
-<form action="/api/bookmark" method="post">
-  <input type="text" name="url" placeholder="url" />
-  <br/>
-  <button type="submit">Send</button>
-  <br/>
-</form>
+
+  <h1>Log In</h1>
+  <form action="/account/login" method="post">
+    <input type="text" name="email" placeholder="Email" />
+    <input type="password" name="password" placeholder="Password" />
+    <br/>
+    <input type="submit" value="Log In"/>
+    <br/>
+  </form>
+
+  <h1>Create Bookmark</h1>
+  <form action="/api/bookmark" method="post">
+    <input type="text" name="url" placeholder="url" />
+    <br/>
+    <input type="submit" value="Create"/>
+    <br/>
+  </form>
 </body>
 
 </html>
