@@ -12,7 +12,7 @@ router.get('/:resource', function(req, res, next){
         })
         return
     }
-    controller.find()
+    controller.find(req.query, false)
     .then(function(entities){
         res.json({
             confirmation: 'success',

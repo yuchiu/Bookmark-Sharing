@@ -5,7 +5,7 @@ var controllers = require('../controllers')
 router.post('/:action', function(req, res, next){
 
     var credentials = req.body
-    controllers.profile.find({email: credentials.email})
+    controllers.profile.find({email: credentials.email}, true)
     .then(function(profiles){
         if(profiles.length== 0){
             res.json({
@@ -19,7 +19,6 @@ router.post('/:action', function(req, res, next){
             confirmation: 'success',
             profile: profile
         })
-
     })
     .catch(function(err){
         res.json({

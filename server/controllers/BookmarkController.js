@@ -4,11 +4,15 @@ var superagent = require('superagent')
 var utils = require('../utils')
 
 module.exports = {
-    find: function (params) {
+    find: function (params, isRaw) {
         return new Promise(function (resolve, reject) {
             Bookmark.find(params, function (err, bookmarks) {
                 if (err) {
                     reject(err)
+                    return
+                }
+                if(isRaw){
+                    resolve(bookmarks)
                     return
                 }
                 var summaries  = []
