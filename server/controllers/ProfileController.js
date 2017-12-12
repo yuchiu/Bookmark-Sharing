@@ -9,7 +9,11 @@ module.exports={
                     reject(err)
                     return
                 }
-                resolve(profiles)
+                var summaries  = []
+                profiles.forEach(function(profile){
+                    summaries.push(profile.summary())
+                })
+                resolve(summaries)
             })
         })
     },
@@ -20,7 +24,7 @@ module.exports={
                     reject(err)
                     return
                 }
-                resolve(profile)
+                resolve(profile.summary())
             })
         })
     },
@@ -36,7 +40,7 @@ module.exports={
                     reject(err)
                     return
                 }
-                resolve(profile)
+                resolve(profile.summary())
             })
         })
     }

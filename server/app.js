@@ -19,6 +19,13 @@ mongoose.connect(process.env.DB_URL, function (err, res) {
     console.log('DB connection success')
   }
 })
+
+//For Resetting the Testing Database
+// mongoose.connect(process.env.DB_URL,function(){
+//   /* Drop the DB */
+//   mongoose.connection.db.dropDatabase();
+// });
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
