@@ -4,6 +4,44 @@ var controllers = require('../controllers')
 var bcrypt = require('bcryptjs')
 var utils = require('../utils')
 
+router.get('/:action', function(req, res, next){
+    var action = req.params.action
+    if(action == "currentuser"){//check for current user
+        if( req.session == null){
+            res.json({
+                confirmation: 'success',
+                message: 'user not logged in.'
+            })
+            return
+        }
+        if( req.session.token == null){
+            res.json({
+                confirmation: 'success',
+                message: 'user not logged in.'
+            })
+            return
+        }
+        var token = req.session.token
+        utils.JWT.verify(token, process.env.TOKEN_SECRET)
+        .then(function(decode){
+            return controllers.profile.findById(decode.id)
+        })
+        .then(function(profile){
+            res.json({
+                confirmation: 'success',
+                profile : profile
+            })
+        })
+        .catch(function(err){
+            res.json({
+                confirmation: 'fail',
+                message: 'invalid token'
+            })
+            return
+        })
+    }
+})
+
 router.post('/:action', function (req, res, next) {
     var credentials = req.body
     controllers.profile.find({
@@ -48,5 +86,4 @@ router.post('/:action', function (req, res, next) {
 
 
 })
-
 module.exports = router
