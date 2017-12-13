@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../assets/scss/styles.scss'
-import Home from './components/containers/Home';
+import '../../../assets/scss/styles.scss'
+import Home from './Home';
 
 
 const app = (
