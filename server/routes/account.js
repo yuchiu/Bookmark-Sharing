@@ -6,6 +6,13 @@ var utils = require('../utils')
 
 router.get('/:action', function(req, res, next){
     var action = req.params.action
+    if(action =='logout'){
+        req.session.reset()
+        res.json({
+            confirmation: 'success',
+            message: 'logged out'
+        })
+    }
     if(action == "currentuser"){//check for current user
         if( req.session == null){
             res.json({
