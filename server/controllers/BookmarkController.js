@@ -15,6 +15,10 @@ module.exports = {
                     resolve(bookmarks)
                     return
                 }
+                if(bookmarks==null){
+                    reject(err)
+                    return
+                }
                 var summaries  = []
                 bookmarks.forEach(function(bookmark){
                     summaries.push(bookmark.summary())
@@ -27,6 +31,10 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             Bookmark.findById(id, function (err, bookmark) {
                 if (err) {
+                    reject(err)
+                    return
+                }
+                if(bookmark==null){
                     reject(err)
                     return
                 }
