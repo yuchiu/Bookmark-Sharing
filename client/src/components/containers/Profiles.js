@@ -1,24 +1,21 @@
 import React from 'react'
 import {API} from '../../utils/'
+import actions from '../../actions'
+import {connect} from 'react-redux'
 
 class Profiles extends React.Component {
-
-  constructor() {
-    super()
-    this.state = {
-      profiles: []
-    }
-  }
   componentDidMount() {
     API.get('api/profile', null, (err, response) => {
-      console.log(response)
-      this.setState({profiles: response.results})
+      const results = response.results
+      this
+        .props
+        .fetchProfiles(results)
     })
   }
   render() {
-    const list = this
-      .state
-      .profiles
+    const profileList = this
+      .props
+      .profileList
       .map((profile, i) => {
         return (
           <li key={profile.id}>{profile.firstName}</li>
@@ -27,11 +24,23 @@ class Profiles extends React.Component {
     return (
       <div>
         <h2>Profiles</h2>
-        <ol>{list}</ol>
+        <ol>{profileList}</ol>
 
       </div>
     )
   }
 }
 
-export default Profiles
+const stateToProps = (state) => {
+  return {profileList: state.profileList.profileList}
+}
+
+const dispatchToProps = (dispatch) => {
+  return {
+    fetchProfiles: (profiles) => {
+      dispatch(actions.fetchProfiles(profiles))
+    }
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(Profiles)
