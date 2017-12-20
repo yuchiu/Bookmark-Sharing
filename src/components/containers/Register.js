@@ -22,7 +22,6 @@ class Register extends React.Component {
         return
       }
       if (response.profile == null) {
-        console.log(response.profile)
         return
       }
       if (response.profile != null) {
@@ -42,6 +41,28 @@ class Register extends React.Component {
         alert(msg)
         return
       }
+      this
+        .props
+        .createProfile(response.profile)
+      this.setState({
+        visitor: {
+          'firstName': '',
+          'lastName': '',
+          'email': '',
+          'password': ''
+        }
+      })
+    })
+  }
+  login(e) {
+    e.preventDefault();
+    API.post('account/login', this.state.visitor, (err, response) => {
+      if (err) {
+        let msg = err.message || err
+        alert(msg)
+        return
+      }
+      console.log('login: '+JSON.stringify(response))
       this
         .props
         .createProfile(response.profile)
@@ -102,6 +123,25 @@ class Register extends React.Component {
             <button onClick={this
               .register
               .bind(this)}>Register</button>
+
+            <h2>Login</h2>
+            <input
+              type="text"
+              id="email"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              placeholder="email"/>
+            <input
+              type="password"
+              id="password"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              placeholder=""/>
+            <button onClick={this
+              .login
+              .bind(this)}>Log In</button>
           </div>
 }
       </div>

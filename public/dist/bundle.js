@@ -22077,7 +22077,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _superagent = __webpack_require__(188);
@@ -22087,26 +22087,31 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	
-	    get: function get(endpoint, params, callback) {
-	
-	        _superagent2.default.get(endpoint).query(params).set('Accept', 'application/json').end(function (err, response) {
-	            if (err) {
-	                callback(err, null);
-	                return;
-	            }
-	            callback(null, response.body);
-	        });
-	    },
-	    post: function post(endpoint, params, callback) {
-	        _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').end(function (err, response) {
-	            if (err) {
-	                callback(err, null);
-	                return;
-	            }
-	            callback(null, response.body);
-	        });
-	    }
+	  get: function get(endpoint, params, callback) {
+	    _superagent2.default.get(endpoint).query(params).set('Accept', 'application/json').end(function (err, response) {
+	      if (err) {
+	        callback(err, null);
+	        return;
+	      }
+	      callback(null, response.body);
+	    });
+	  },
+	  post: function post(endpoint, params, callback) {
+	    _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').end(function (err, response) {
+	      if (err) {
+	        callback(err, null);
+	        return;
+	      }
+	      var confirmation = response.body.confirmation;
+	      if (confirmation != 'success') {
+	        callback({
+	          message: response.body.message
+	        }, null);
+	        return;
+	      }
+	      callback(null, response.body);
+	    });
+	  }
 	};
 
 /***/ }),
@@ -26692,7 +26697,6 @@
 	          return;
 	        }
 	        if (response.profile == null) {
-	          console.log(response.profile);
 	          return;
 	        }
 	        if (response.profile != null) {
@@ -26716,6 +26720,30 @@
 	        }
 	        _this3.props.createProfile(response.profile);
 	        _this3.setState({
+	          visitor: {
+	            'firstName': '',
+	            'lastName': '',
+	            'email': '',
+	            'password': ''
+	          }
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(e) {
+	      var _this4 = this;
+	
+	      e.preventDefault();
+	      _utils.API.post('account/login', this.state.visitor, function (err, response) {
+	        if (err) {
+	          var msg = err.message || err;
+	          alert(msg);
+	          return;
+	        }
+	        console.log('login: ' + JSON.stringify(response));
+	        _this4.props.createProfile(response.profile);
+	        _this4.setState({
 	          visitor: {
 	            'firstName': '',
 	            'lastName': '',
@@ -26779,6 +26807,26 @@
 	            'button',
 	            { onClick: this.register.bind(this) },
 	            'Register'
+	          ),
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            'Login'
+	          ),
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            id: 'email',
+	            onChange: this.updateVisitor.bind(this),
+	            placeholder: 'email' }),
+	          _react2.default.createElement('input', {
+	            type: 'password',
+	            id: 'password',
+	            onChange: this.updateVisitor.bind(this),
+	            placeholder: '' }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.login.bind(this) },
+	            'Log In'
 	          )
 	        )
 	      );
