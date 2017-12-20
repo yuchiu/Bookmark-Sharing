@@ -17,6 +17,14 @@ let actions = {
                 })
         }
     },
+    fetchCurrentUser: (profile) => {
+        return (dispatch) => {
+                dispatch({
+                    type: constants.FETCH_CURRENTUSER,
+                    payload: profile
+                })
+        }
+    },
 }
 
 export default actions;

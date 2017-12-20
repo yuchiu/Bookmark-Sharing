@@ -12,6 +12,11 @@ export default (state = initialState, action) => {
             newState['currentUser'] = action.payload
             return newState
             break;
+            case constants.FETCH_CURRENTUSER:
+                newState['currentUser'] = action.payload
+                return newState
+                break;
+        
         default:
             return state
     }

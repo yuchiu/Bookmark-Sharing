@@ -24200,6 +24200,14 @@
 	                payload: profile
 	            });
 	        };
+	    },
+	    fetchCurrentUser: function fetchCurrentUser(profile) {
+	        return function (dispatch) {
+	            dispatch({
+	                type: _constants2.default.FETCH_CURRENTUSER,
+	                payload: profile
+	            });
+	        };
 	    }
 	};
 	
@@ -24216,7 +24224,8 @@
 	});
 	exports.default = {
 	    FETCH_PROFILES: "FETCH_PROFILES",
-	    CREATE_PROFILE: "CREATE_PROFILE"
+	    CREATE_PROFILE: "CREATE_PROFILE",
+	    FETCH_CURRENTUSER: "FETCH_CURRENTUSER"
 	};
 
 /***/ }),
@@ -26673,9 +26682,30 @@
 	  }
 	
 	  _createClass(Register, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      _utils.API.get('account/currentuser', null, function (err, response) {
+	        if (err) {
+	          alert(err);
+	          return;
+	        }
+	        if (response.profile == null) {
+	          console.log(response.profile);
+	          return;
+	        }
+	        if (response.profile != null) {
+	          //user is logged in
+	          console.log(response.profile);
+	          _this2.props.fetchCurrentUser(response.profile);
+	        }
+	      });
+	    }
+	  }, {
 	    key: 'register',
 	    value: function register(e) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      e.preventDefault();
 	      _utils.API.post('account/register', this.state.visitor, function (err, response) {
@@ -26684,8 +26714,8 @@
 	          alert(msg);
 	          return;
 	        }
-	        _this2.props.createProfile(response.profile);
-	        _this2.setState({
+	        _this3.props.createProfile(response.profile);
+	        _this3.setState({
 	          visitor: {
 	            'firstName': '',
 	            'lastName': '',
@@ -26705,49 +26735,51 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var greeting = this.props.currentUser == null ? null : _react2.default.createElement(
-	        'h2',
-	        null,
-	        'Welcome ',
-	        this.props.currentUser.firstName
-	      );
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        greeting,
-	        _react2.default.createElement(
+	        this.props.currentUser != null ? _react2.default.createElement(
 	          'h2',
 	          null,
-	          'Register'
-	        ),
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          id: 'firstName',
-	          onChange: this.updateVisitor.bind(this),
-	          value: this.state.visitor.firstName,
-	          placeholder: 'first Name' }),
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          id: 'lastName',
-	          onChange: this.updateVisitor.bind(this),
-	          value: this.state.visitor.lastName,
-	          placeholder: 'last Name' }),
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          id: 'email',
-	          onChange: this.updateVisitor.bind(this),
-	          value: this.state.visitor.email,
-	          placeholder: 'email' }),
-	        _react2.default.createElement('input', {
-	          type: 'password',
-	          id: 'password',
-	          onChange: this.updateVisitor.bind(this),
-	          value: this.state.visitor.password,
-	          placeholder: '' }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.register.bind(this) },
-	          'Register'
+	          'Welcome ',
+	          this.props.currentUser.firstName
+	        ) : _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            'Register'
+	          ),
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            id: 'firstName',
+	            onChange: this.updateVisitor.bind(this),
+	            value: this.state.visitor.firstName,
+	            placeholder: 'first Name' }),
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            id: 'lastName',
+	            onChange: this.updateVisitor.bind(this),
+	            value: this.state.visitor.lastName,
+	            placeholder: 'last Name' }),
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            id: 'email',
+	            onChange: this.updateVisitor.bind(this),
+	            value: this.state.visitor.email,
+	            placeholder: 'email' }),
+	          _react2.default.createElement('input', {
+	            type: 'password',
+	            id: 'password',
+	            onChange: this.updateVisitor.bind(this),
+	            value: this.state.visitor.password,
+	            placeholder: '' }),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.register.bind(this) },
+	            'Register'
+	          )
 	        )
 	      );
 	    }
@@ -26757,14 +26789,16 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { profileList: state.profileList.profileList,
-	    currentUser: state.account.currentUser };
+	  return { profileList: state.profileList.profileList, currentUser: state.account.currentUser };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
 	  return {
 	    createProfile: function createProfile(profile) {
 	      dispatch(_actions2.default.createProfile(profile));
+	    },
+	    fetchCurrentUser: function fetchCurrentUser(profile) {
+	      dispatch(_actions2.default.fetchCurrentUser(profile));
 	    }
 	  };
 	};
@@ -27044,6 +27078,11 @@
 	            newState['currentUser'] = action.payload;
 	            return newState;
 	            break;
+	        case _constants2.default.FETCH_CURRENTUSER:
+	            newState['currentUser'] = action.payload;
+	            return newState;
+	            break;
+	
 	        default:
 	            return state;
 	    }

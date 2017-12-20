@@ -15,6 +15,25 @@ class Register extends React.Component {
       }
     }
   }
+  componentDidMount() {
+    API.get('account/currentuser', null, (err, response) => {
+      if (err) {
+        alert(err)
+        return
+      }
+      if (response.profile == null) {
+        console.log(response.profile)
+        return
+      }
+      if (response.profile != null) {
+        //user is logged in
+        console.log(response.profile)
+        this
+          .props
+          .fetchCurrentUser(response.profile)
+      }
+    })
+  }
   register(e) {
     e.preventDefault();
     API.post('account/register', this.state.visitor, (err, response) => {
@@ -42,60 +61,65 @@ class Register extends React.Component {
     this.setState({visitor: newVisitor})
   }
   render() {
-    const greeting = (this.props.currentUser == null) ? null : <h2>Welcome {this.props.currentUser.firstName}</h2>
     return (
       <div>
-        {greeting}
-        <h2>Register</h2>
-        <input
-          type="text"
-          id="firstName"
-          onChange={this
-          .updateVisitor
-          .bind(this)}
-          value={this.state.visitor.firstName}
-          placeholder="first Name"/>
-        <input
-          type="text"
-          id="lastName"
-          onChange={this
-          .updateVisitor
-          .bind(this)}
-          value={this.state.visitor.lastName}
-          placeholder="last Name"/>
-        <input
-          type="text"
-          id="email"
-          onChange={this
-          .updateVisitor
-          .bind(this)}
-          value={this.state.visitor.email}
-          placeholder="email"/>
-        <input
-          type="password"
-          id="password"
-          onChange={this
-          .updateVisitor
-          .bind(this)}
-          value={this.state.visitor.password}
-          placeholder=""/>
-        <button onClick={this
-          .register
-          .bind(this)}>Register</button>
+        {(this.props.currentUser != null)
+          ? <h2>Welcome {this.props.currentUser.firstName}</h2>
+          : <div>
+            <h2>Register</h2>
+            <input
+              type="text"
+              id="firstName"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              value={this.state.visitor.firstName}
+              placeholder="first Name"/>
+            <input
+              type="text"
+              id="lastName"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              value={this.state.visitor.lastName}
+              placeholder="last Name"/>
+            <input
+              type="text"
+              id="email"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              value={this.state.visitor.email}
+              placeholder="email"/>
+            <input
+              type="password"
+              id="password"
+              onChange={this
+              .updateVisitor
+              .bind(this)}
+              value={this.state.visitor.password}
+              placeholder=""/>
+            <button onClick={this
+              .register
+              .bind(this)}>Register</button>
+          </div>
+}
       </div>
     )
   }
 }
 
 const stateToProps = (state) => {
-  return {profileList: state.profileList.profileList,
-          currentUser: state.account.currentUser}
+  return {profileList: state.profileList.profileList, currentUser: state.account.currentUser}
 }
 
 const dispatchToProps = (dispatch) => {
   return {
     createProfile: (profile) => {
       dispatch(actions.createProfile(profile))
+    },
+    fetchCurrentUser: (profile) => {
+      dispatch(actions.fetchCurrentUser(profile))
     }
   }
 }

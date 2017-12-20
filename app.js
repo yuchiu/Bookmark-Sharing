@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var sessions = require('client-sessions')
+var cors = require('cors')
 require('dotenv').config()
 
 var routes = require('./routes/index')
@@ -38,6 +39,9 @@ app.set('view engine', 'hjs')
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+
+app.use(cors())
 app.use(cookieParser())
 app.use(sessions({
   cookieName: 'session',
