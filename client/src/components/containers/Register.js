@@ -17,16 +17,16 @@ class Register extends React.Component {
   }
   register(e) {
     e.preventDefault();
-    API.post('api/profile', this.state.visitor, (err, response) => {
+    API.post('account/register', this.state.visitor, (err, response) => {
       if (err) {
         let msg = err.message || err
         alert(msg)
         return
       }
-      const result= response.result
-      this
-        .props
-        .createProfile(result)
+      console.log(response)
+      // this
+      //   .props
+      //   .createProfile(response.profile)
       this.setState({
         visitor: {
           'firstName': '',
