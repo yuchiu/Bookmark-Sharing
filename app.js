@@ -20,7 +20,9 @@ mongoose.connect(process.env.DB_URL, function(err, res){
     console.log('DB Connection Success')
   }
 })
-//For Resetting the Testing Database
+
+
+// For Resetting the Testing Database
 // mongoose.connect(process.env.DB_URL,function(){
 //   /* Drop the DB */
 //   mongoose.connection.db.dropDatabase();

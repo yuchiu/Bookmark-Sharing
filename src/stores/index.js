@@ -2,13 +2,14 @@ import { applyMiddleware, createStore,  combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
-import { profileReducer } from '../reducers/'
+import { profileReducer, accountReducer } from '../reducers/'
 
 let store = null
 export default {
 	configure: () => {
 		const reducers = combineReducers({
-			profileList: profileReducer
+			profileList: profileReducer,
+			account : accountReducer
 		})
 		store = createStore(
 			reducers,

@@ -26684,10 +26684,7 @@
 	          alert(msg);
 	          return;
 	        }
-	        console.log(response);
-	        // this
-	        //   .props
-	        //   .createProfile(response.profile)
+	        _this2.props.createProfile(response.profile);
 	        _this2.setState({
 	          visitor: {
 	            'firstName': '',
@@ -26708,9 +26705,16 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var greeting = this.props.currentUser == null ? null : _react2.default.createElement(
+	        'h2',
+	        null,
+	        'Welcome ',
+	        this.props.currentUser.firstName
+	      );
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        greeting,
 	        _react2.default.createElement(
 	          'h2',
 	          null,
@@ -26753,7 +26757,8 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { profileList: state.profileList.profileList };
+	  return { profileList: state.profileList.profileList,
+	    currentUser: state.account.currentUser };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
@@ -26892,7 +26897,8 @@
 	exports.default = {
 		configure: function configure() {
 			var reducers = (0, _redux.combineReducers)({
-				profileList: _reducers.profileReducer
+				profileList: _reducers.profileReducer,
+				account: _reducers.accountReducer
 			});
 			store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 	
@@ -26950,14 +26956,19 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.profileReducer = undefined;
+	exports.profileReducer = exports.accountReducer = undefined;
 	
 	var _profileReducer = __webpack_require__(244);
 	
 	var _profileReducer2 = _interopRequireDefault(_profileReducer);
 	
+	var _accountReducer = __webpack_require__(245);
+	
+	var _accountReducer2 = _interopRequireDefault(_accountReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	exports.accountReducer = _accountReducer2.default;
 	exports.profileReducer = _profileReducer2.default;
 
 /***/ }),
@@ -26995,6 +27006,42 @@
 	            var newProfileList = Object.assign([], state.profileList);
 	            newProfileList.push(action.payload);
 	            newState['profileList'] = newProfileList;
+	            return newState;
+	            break;
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _constants = __webpack_require__(196);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+	    currentUser: null
+	};
+	
+	exports.default = function () {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	    var action = arguments[1];
+	
+	    var newState = Object.assign({}, state);
+	
+	    switch (action.type) {
+	        case _constants2.default.CREATE_PROFILE:
+	            newState['currentUser'] = action.payload;
 	            return newState;
 	            break;
 	        default:

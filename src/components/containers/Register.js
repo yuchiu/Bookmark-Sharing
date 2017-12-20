@@ -23,10 +23,9 @@ class Register extends React.Component {
         alert(msg)
         return
       }
-      console.log(response)
-      // this
-      //   .props
-      //   .createProfile(response.profile)
+      this
+        .props
+        .createProfile(response.profile)
       this.setState({
         visitor: {
           'firstName': '',
@@ -43,8 +42,10 @@ class Register extends React.Component {
     this.setState({visitor: newVisitor})
   }
   render() {
+    const greeting = (this.props.currentUser == null) ? null : <h2>Welcome {this.props.currentUser.firstName}</h2>
     return (
       <div>
+        {greeting}
         <h2>Register</h2>
         <input
           type="text"
@@ -87,7 +88,8 @@ class Register extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {profileList: state.profileList.profileList}
+  return {profileList: state.profileList.profileList,
+          currentUser: state.account.currentUser}
 }
 
 const dispatchToProps = (dispatch) => {
