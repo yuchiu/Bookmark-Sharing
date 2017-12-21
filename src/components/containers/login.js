@@ -53,9 +53,6 @@ class Login extends React.Component {
         }
       })
     })
-    console.log(
-      this.props.currentUser
-    )
   }
   updateVisitor(attr, e) {
     let newVisitor = Object.assign({}, this.state.visitor)
