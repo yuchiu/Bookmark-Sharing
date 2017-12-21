@@ -1,8 +1,7 @@
 import React from 'react'
 import Profiles from '../containers/Profiles'
 import Register from '../containers/Register'
-import SignIn from '../presentations/SignIn'
-import CreateBookmark from '../presentations/CreateBookmark'
+import Login from '../containers/Login'
 
 class Home extends React.Component {
 
@@ -12,8 +11,7 @@ class Home extends React.Component {
         Bookmark Sharing
         <Profiles/>
         <Register/>
-        <SignIn/>
-        <CreateBookmark/>
+        <Login/>
       </div>
     )
   }

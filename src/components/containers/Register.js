@@ -54,31 +54,9 @@ class Register extends React.Component {
       })
     })
   }
-  login(e) {
-    e.preventDefault();
-    API.post('account/login', this.state.visitor, (err, response) => {
-      if (err) {
-        let msg = err.message || err
-        alert(msg)
-        return
-      }
-      console.log('login: '+JSON.stringify(response))
-      this
-        .props
-        .createProfile(response.profile)
-      this.setState({
-        visitor: {
-          'firstName': '',
-          'lastName': '',
-          'email': '',
-          'password': ''
-        }
-      })
-    })
-  }
-  updateVisitor(e) {
+  updateVisitor(attr, e) {
     let newVisitor = Object.assign({}, this.state.visitor)
-    newVisitor[e.target.id] = e.target.value
+    newVisitor[attr] = e.target.value
     this.setState({visitor: newVisitor})
   }
   render() {
@@ -90,58 +68,35 @@ class Register extends React.Component {
             <h2>Register</h2>
             <input
               type="text"
-              id="firstName"
               onChange={this
               .updateVisitor
-              .bind(this)}
+              .bind(this, 'firstName')}
               value={this.state.visitor.firstName}
               placeholder="first Name"/>
             <input
               type="text"
-              id="lastName"
               onChange={this
               .updateVisitor
-              .bind(this)}
+              .bind(this, 'lastName')}
               value={this.state.visitor.lastName}
               placeholder="last Name"/>
             <input
               type="text"
-              id="email"
               onChange={this
               .updateVisitor
-              .bind(this)}
+              .bind(this, 'email')}
               value={this.state.visitor.email}
               placeholder="email"/>
             <input
               type="password"
-              id="password"
               onChange={this
               .updateVisitor
-              .bind(this)}
+              .bind(this, 'password')}
               value={this.state.visitor.password}
               placeholder=""/>
             <button onClick={this
               .register
               .bind(this)}>Register</button>
-
-            <h2>Login</h2>
-            <input
-              type="text"
-              id="email"
-              onChange={this
-              .updateVisitor
-              .bind(this)}
-              placeholder="email"/>
-            <input
-              type="password"
-              id="password"
-              onChange={this
-              .updateVisitor
-              .bind(this)}
-              placeholder=""/>
-            <button onClick={this
-              .login
-              .bind(this)}>Log In</button>
           </div>
 }
       </div>
@@ -150,7 +105,7 @@ class Register extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {profileList: state.profileList.profileList, currentUser: state.account.currentUser}
+  return {currentUser: state.account.currentUser}
 }
 
 const dispatchToProps = (dispatch) => {
