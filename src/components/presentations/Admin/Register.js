@@ -1,7 +1,5 @@
 import React from 'react'
-import {API} from '../../utils'
-import actions from '../../actions'
-import {connect} from 'react-redux'
+import {API} from '../../../utils'
 
 class Register extends React.Component {
   constructor() {
@@ -104,19 +102,4 @@ class Register extends React.Component {
   }
 }
 
-const stateToProps = (state) => {
-  return {currentUser: state.account.currentUser}
-}
-
-const dispatchToProps = (dispatch) => {
-  return {
-    createProfile: (profile) => {
-      dispatch(actions.createProfile(profile))
-    },
-    fetchCurrentUser: (profile) => {
-      dispatch(actions.fetchCurrentUser(profile))
-    }
-  }
-}
-
-export default connect(stateToProps, dispatchToProps)(Register)
+export default Register

@@ -1,7 +1,5 @@
 import React from 'react'
-import {API} from '../../utils'
-import actions from '../../actions'
-import {connect} from 'react-redux'
+import {API} from '../../../utils'
 
 class Logout extends React.Component {
   logout(e) {
@@ -25,16 +23,5 @@ class Logout extends React.Component {
   }
 }
 
-const stateToProps = (state) => {
-  return {currentUser: state.account.currentUser}
-}
 
-const dispatchToProps = (dispatch) => {
-  return {
-    logoutUser: () => {
-      dispatch(actions.logoutUser())
-    }
-  }
-}
-
-export default connect(stateToProps, dispatchToProps)(Logout)
+export default Logout

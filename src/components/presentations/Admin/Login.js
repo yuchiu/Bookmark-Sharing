@@ -1,7 +1,5 @@
 import React from 'react'
-import {API} from '../../utils'
-import actions from '../../actions'
-import {connect} from 'react-redux'
+import {API} from '../../../utils'
 
 class Login extends React.Component {
   constructor() {
@@ -15,6 +13,7 @@ class Login extends React.Component {
       }
     }
   }
+
   componentDidMount() {
     API.get('account/currentuser', null, (err, response) => {
       if (err) {
@@ -62,46 +61,30 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        {(this.props.currentUser != null)
-          ? <h2>Welcome {this.props.currentUser.firstName}</h2>
-          : <div>
-            <h2>Login</h2>
-            <input
-              type="text"
-              onChange={this
-              .updateVisitor
-              .bind(this,'email')}
-              placeholder="email"/>
-            <input
-              type="password"
-              id="password"
-              onChange={this
-              .updateVisitor
-              .bind(this,'password')}
-              placeholder=""/>
-            <button onClick={this
-              .login
-              .bind(this)}>Log In</button>
-          </div>
+        {!this.props.currentUser && <div>
+          <h2>Login</h2>
+          <input
+            type="text"
+            onChange={this
+            .updateVisitor
+            .bind(this, 'email')}
+            placeholder="email"/>
+          <input
+            type="password"
+            id="password"
+            onChange={this
+            .updateVisitor
+            .bind(this, 'password')}
+            placeholder=""/>
+          <button onClick={this
+            .login
+            .bind(this)}>Log In</button>
+        </div>
 }
       </div>
     )
   }
 }
 
-const stateToProps = (state) => {
-  return {currentUser: state.account.currentUser}
-}
 
-const dispatchToProps = (dispatch) => {
-  return {
-    createProfile: (profile) => {
-      dispatch(actions.createProfile(profile))
-    },
-    fetchCurrentUser: (profile) => {
-      dispatch(actions.fetchCurrentUser(profile))
-    }
-  }
-}
-
-export default connect(stateToProps, dispatchToProps)(Login)
+export default Login
