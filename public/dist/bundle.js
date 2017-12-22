@@ -27422,14 +27422,13 @@
 	    key: 'submitLink',
 	    value: function submitLink(e) {
 	      e.preventDefault();
-	      console.log(this.state.link);
 	      var bookmark = {
 	        profile: this.props.currentUser,
 	        url: this.state.link
 	      };
-	      _utils.API.post('api/bookmark/', bookmark, function (err, res) {
+	      _utils.API.post('api/bookmark', bookmark, function (err, res) {
 	        if (err) {
-	          alert(err);
+	          alert(JSON.stringify(err));
 	          return;
 	        }
 	        console.log('submit link ' + JSON.stringify(res));

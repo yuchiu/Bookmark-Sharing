@@ -16,14 +16,13 @@ class Bookmarks extends React.Component {
   }
   submitLink(e) {
     e.preventDefault()
-    console.log(this.state.link)
     const bookmark = {
       profile: this.props.currentUser,
       url: this.state.link
     }
-    API.post('api/bookmark/', bookmark, (err, res) => {
+    API.post('api/bookmark', bookmark, (err, res) => {
       if (err) {
-        alert(err)
+        alert(JSON.stringify(err))
         return
       }
       console.log('submit link ' + JSON.stringify(res))
