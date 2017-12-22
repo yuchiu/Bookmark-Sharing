@@ -27423,7 +27423,7 @@
 	    value: function submitLink(e) {
 	      e.preventDefault();
 	      var bookmark = {
-	        profile: this.props.currentUser,
+	        profile: this.props.currentUser.id,
 	        url: this.state.link
 	      };
 	      _utils.API.post('api/bookmark', bookmark, function (err, res) {

@@ -17,7 +17,7 @@ class Bookmarks extends React.Component {
   submitLink(e) {
     e.preventDefault()
     const bookmark = {
-      profile: this.props.currentUser,
+      profile: this.props.currentUser.id,
       url: this.state.link
     }
     API.post('api/bookmark', bookmark, (err, res) => {

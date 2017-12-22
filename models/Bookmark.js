@@ -1,58 +1,15 @@
 var mongoose = require('mongoose')
 
 var BookmarkSchema = new mongoose.Schema({
-	profile: {
-		firstName: {
-			type: String,
-			trim: true,
-			default: ''
-		},
-		lastName: {
-			type: String,
-			trim: true,
-			default: ''
-		},
-		email: {
-			type: String,
-			trim: true,
-			lowercase: true,
-			default: ''
-		},
-		id: {
-			type: String,
-			default: ''
-		},
-		timestamp: {
-			type: Date,
-			default: Date.now
-		}
-	}, // ID of the profile who posted the bookmark
-	url: {
-		type: String,
-		trim: true,
-		default: ''
-	},
-	title: {
-		type: String,
-		trim: true,
-		default: ''
-	},
-	description: {
-		type: String,
-		trim: true,
-		default: ''
-	},
-	image: {
-		type: String,
-		default: ''
-	},
-	timestamp: {
-		type: Date,
-		default: Date.now
-	}
+	profile: {type:String, default:''}, // ID of the profile who posted the bookmark
+	url: {type:String, trim:true, default:''},
+	title: {type:String, trim:true, default:''},
+	description: {type:String, trim:true, default:''},
+	image: {type:String, default:''},
+	timestamp: {type:Date, default:Date.now}
 })
 
-BookmarkSchema.methods.summary = function () {
+BookmarkSchema.methods.summary = function(){
 	var summary = {
 		id: this._id.toString(),
 		profile: this.profile,
@@ -62,7 +19,7 @@ BookmarkSchema.methods.summary = function () {
 		timestamp: this.timestamp
 	}
 
-	return summary
+	return summary	
 }
 
 module.exports = mongoose.model('BookmarkSchema', BookmarkSchema)
