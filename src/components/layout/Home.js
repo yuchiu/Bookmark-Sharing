@@ -1,6 +1,5 @@
 import React from 'react'
-import Profiles from '../containers/Profiles'
-import Admin from '../containers/Admin'
+import {Admin, Profiles} from '../containers/'
 
 class Home extends React.Component {
 

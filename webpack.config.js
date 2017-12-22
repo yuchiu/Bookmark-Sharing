@@ -3,7 +3,7 @@ var path = require('path')
 
 module.exports = {
 	entry: {
-		app: './src/components/layout/index.js'
+		app: './src/index.js'
 	},
 	output: {
 		filename: 'public/dist/bundle.js',

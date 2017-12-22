@@ -1,15 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-// import '../../../public/assets/scss/styles.scss'
-import Home from './Home';
-import store from '../../stores'
-import {Provider} from 'react-redux'
+import Home from './Home'
 
-const app = (
-  <Provider store={store.configure()}>
-    <Home/>
-  </Provider>
-)
-
-
-ReactDOM.render(app, document.getElementById('root'))
+export{
+    Home
+}

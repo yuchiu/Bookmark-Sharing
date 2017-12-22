@@ -3,10 +3,7 @@ import {API} from '../../utils'
 import actions from '../../actions'
 import {connect} from 'react-redux'
 
-import Login from '../presentations/Admin/Login'
-import Logout from '../presentations/Admin/Logout'
-import Register from '../presentations/Admin/Register'
-import Welcome from '../presentations/Admin/Welcome'
+import {Login, Logout, Register, Welcome} from '../presentations/Admin/'
 
 class Admin extends React.Component {
   componentDidMount() {
