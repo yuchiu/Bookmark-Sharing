@@ -2,7 +2,6 @@ import React from 'react'
 import {API} from '../../utils'
 import actions from '../../actions'
 import {connect} from 'react-redux'
-
 import {Login, Logout, Register, Welcome} from '../presentations/Admin/'
 
 class Admin extends React.Component {

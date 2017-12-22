@@ -1,5 +1,4 @@
 import React from 'react'
-import {API} from '../../../utils'
 
 class Logout extends React.Component {
   logout(e) {
