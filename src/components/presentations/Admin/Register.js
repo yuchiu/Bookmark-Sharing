@@ -1,5 +1,4 @@
 import React from 'react'
-import {API} from '../../../utils'
 
 class Register extends React.Component {
   constructor() {
@@ -13,49 +12,22 @@ class Register extends React.Component {
       }
     }
   }
-  componentDidMount() {
-    API.get('account/currentuser', null, (err, response) => {
-      if (err) {
-        alert(err)
-        return
-      }
-      if (response.profile == null) {
-        return
-      }
-      if (response.profile != null) {
-        //user is logged in
-        console.log(response.profile)
-        this
-          .props
-          .fetchCurrentUser(response.profile)
-      }
-    })
-  }
-  register(e) {
-    e.preventDefault();
-    API.post('account/register', this.state.visitor, (err, response) => {
-      if (err) {
-        let msg = err.message || err
-        alert(msg)
-        return
-      }
-      this
-        .props
-        .createProfile(response.profile)
-      this.setState({
-        visitor: {
-          'firstName': '',
-          'lastName': '',
-          'email': '',
-          'password': ''
-        }
-      })
-    })
-  }
   updateVisitor(attr, e) {
     let newVisitor = Object.assign({}, this.state.visitor)
     newVisitor[attr] = e.target.value
     this.setState({visitor: newVisitor})
+  }
+  register(e) {
+    e.preventDefault();
+    this.props.onRegister(this.state.visitor)
+    this.setState({
+      visitor: {
+        'firstName': '',
+        'lastName': '',
+        'email': '',
+        'password': ''
+      }
+    })
   }
   render() {
     return (

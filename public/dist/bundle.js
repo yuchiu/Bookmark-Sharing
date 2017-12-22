@@ -22041,6 +22041,48 @@
 	      });
 	    }
 	  }, {
+	    key: 'register',
+	    value: function register(visitor) {
+	      var _this3 = this;
+	
+	      _utils.API.post('account/register', visitor, function (err, response) {
+	        if (err) {
+	          var msg = err.message || err;
+	          alert(msg);
+	          return;
+	        }
+	        _this3.props.createProfile(response.profile);
+	      });
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(credentials) {
+	      var _this4 = this;
+	
+	      _utils.API.post('account/login', credentials, function (err, response) {
+	        if (err) {
+	          var msg = err.message || err;
+	          alert(msg);
+	          return;
+	        }
+	        _this4.props.createProfile(response.profile);
+	      });
+	    }
+	  }, {
+	    key: 'logout',
+	    value: function logout() {
+	      var _this5 = this;
+	
+	      _utils.API.get('account/logout', null, function (err, response) {
+	        if (err) {
+	          var msg = err.message || err;
+	          alert(msg);
+	          return;
+	        }
+	        _this5.props.logoutUser();
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -22050,20 +22092,14 @@
 	          'div',
 	          null,
 	          _react2.default.createElement(_Admin.Welcome, { firstName: this.props.currentUser.firstName }),
-	          _react2.default.createElement(_Admin.Logout, {
-	            currentUser: this.props.currentUser,
-	            logoutUser: this.props.logoutUser })
+	          _react2.default.createElement(_Admin.Logout, { onLogout: this.logout.bind(this) })
 	        ) : _react2.default.createElement(
 	          'div',
 	          null,
 	          _react2.default.createElement(_Admin.Login, {
-	            currentUser: this.props.currentUser,
-	            createProfile: this.props.createProfile,
-	            fetchCurrentUser: this.props.fetchCurrentUser }),
+	            onLogin: this.login.bind(this) }),
 	          _react2.default.createElement(_Admin.Register, {
-	            currentUser: this.props.currentUser,
-	            createProfile: this.props.createProfile,
-	            fetchCurrentUser: this.props.fetchCurrentUser })
+	            onRegister: this.register.bind(this) })
 	        )
 	      );
 	    }
@@ -26735,8 +26771,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _utils = __webpack_require__(188);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26755,8 +26789,6 @@
 	
 	    _this.state = {
 	      visitor: {
-	        'firstName': '',
-	        'lastName': '',
 	        'email': '',
 	        'password': ''
 	      }
@@ -26765,54 +26797,17 @@
 	  }
 	
 	  _createClass(Login, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
-	
-	      _utils.API.get('account/currentuser', null, function (err, response) {
-	        if (err) {
-	          alert(err);
-	          return;
-	        }
-	        if (response.profile == null) {
-	          return;
-	        }
-	        if (response.profile != null) {
-	          //user is logged in
-	          console.log(response.profile);
-	          _this2.props.fetchCurrentUser(response.profile);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'login',
-	    value: function login(e) {
-	      var _this3 = this;
-	
-	      e.preventDefault();
-	      _utils.API.post('account/login', this.state.visitor, function (err, response) {
-	        if (err) {
-	          var msg = err.message || err;
-	          alert(msg);
-	          return;
-	        }
-	        _this3.props.createProfile(response.profile);
-	        _this3.setState({
-	          visitor: {
-	            'firstName': '',
-	            'lastName': '',
-	            'email': '',
-	            'password': ''
-	          }
-	        });
-	      });
-	    }
-	  }, {
 	    key: 'updateVisitor',
 	    value: function updateVisitor(attr, e) {
 	      var newVisitor = Object.assign({}, this.state.visitor);
 	      newVisitor[attr] = e.target.value;
 	      this.setState({ visitor: newVisitor });
+	    }
+	  }, {
+	    key: 'login',
+	    value: function login(e) {
+	      e.preventDefault();
+	      this.props.onLogin(this.state.visitor);
 	    }
 	  }, {
 	    key: 'render',
@@ -26890,17 +26885,8 @@
 	  _createClass(Logout, [{
 	    key: 'logout',
 	    value: function logout(e) {
-	      var _this2 = this;
-	
 	      e.preventDefault();
-	      _utils.API.get('account/logout', null, function (err, response) {
-	        if (err) {
-	          var msg = err.message || err;
-	          alert(msg);
-	          return;
-	        }
-	        _this2.props.logoutUser();
-	      });
+	      this.props.onLogout();
 	    }
 	  }, {
 	    key: 'render',
@@ -26908,7 +26894,8 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.props.currentUser && _react2.default.createElement(
+	        ' ',
+	        _react2.default.createElement(
 	          'button',
 	          { onClick: this.logout.bind(this) },
 	          'Logout'
@@ -26938,8 +26925,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _utils = __webpack_require__(188);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26968,54 +26953,25 @@
 	  }
 	
 	  _createClass(Register, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
-	
-	      _utils.API.get('account/currentuser', null, function (err, response) {
-	        if (err) {
-	          alert(err);
-	          return;
-	        }
-	        if (response.profile == null) {
-	          return;
-	        }
-	        if (response.profile != null) {
-	          //user is logged in
-	          console.log(response.profile);
-	          _this2.props.fetchCurrentUser(response.profile);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'register',
-	    value: function register(e) {
-	      var _this3 = this;
-	
-	      e.preventDefault();
-	      _utils.API.post('account/register', this.state.visitor, function (err, response) {
-	        if (err) {
-	          var msg = err.message || err;
-	          alert(msg);
-	          return;
-	        }
-	        _this3.props.createProfile(response.profile);
-	        _this3.setState({
-	          visitor: {
-	            'firstName': '',
-	            'lastName': '',
-	            'email': '',
-	            'password': ''
-	          }
-	        });
-	      });
-	    }
-	  }, {
 	    key: 'updateVisitor',
 	    value: function updateVisitor(attr, e) {
 	      var newVisitor = Object.assign({}, this.state.visitor);
 	      newVisitor[attr] = e.target.value;
 	      this.setState({ visitor: newVisitor });
+	    }
+	  }, {
+	    key: 'register',
+	    value: function register(e) {
+	      e.preventDefault();
+	      this.props.onRegister(this.state.visitor);
+	      this.setState({
+	        visitor: {
+	          'firstName': '',
+	          'lastName': '',
+	          'email': '',
+	          'password': ''
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'render',

@@ -22,26 +22,55 @@ class Admin extends React.Component {
       }
     })
   }
+  register(visitor) {
+    API.post('account/register', visitor, (err, response) => {
+      if (err) {
+        let msg = err.message || err
+        alert(msg)
+        return
+      }
+      this
+        .props
+        .createProfile(response.profile)
+    })
+  }
+  login(credentials) {
+    API.post('account/login', credentials, (err, response) => {
+      if (err) {
+        let msg = err.message || err
+        alert(msg)
+        return
+      }
+      this
+        .props
+        .createProfile(response.profile)
+    })
+  }
+  logout() {
+    API.get('account/logout', null, (err, response) => {
+      if (err) {
+        let msg = err.message || err
+        alert(msg)
+        return
+      }
+      this.props.logoutUser()
+    })
+
+  }
   render() {
     return (
       <div>
         {(this.props.currentUser != null)
           ? <div>
               <Welcome firstName={this.props.currentUser.firstName}/>
-              <Logout
-                currentUser={this.props.currentUser}
-                logoutUser={this.props.logoutUser}/>
+              <Logout onLogout={this.logout.bind(this)}/>
             </div>
 
           : <div>
             <Login
-              currentUser={this.props.currentUser}
-              createProfile={this.props.createProfile}
-              fetchCurrentUser={this.props.fetchCurrentUser}/>
+              onLogin={this.login.bind(this)}/>
             <Register
-              currentUser={this.props.currentUser}
-              createProfile={this.props.createProfile}
-              fetchCurrentUser={this.props.fetchCurrentUser}/>
+            onRegister={this.register.bind(this)}/>
           </div>
 }
       </div>
