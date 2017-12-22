@@ -1,5 +1,5 @@
 import React from 'react'
-import {Admin, Profiles} from '../containers/'
+import {Admin, Profiles,Bookmarks} from '../containers/'
 
 class Home extends React.Component {
 
@@ -7,8 +7,9 @@ class Home extends React.Component {
     return (
       <div>
         Bookmark Sharing
-        <Profiles/>
         <Admin/>
+        <Bookmarks/>
+        <Profiles/>
       </div>
     )
   }
