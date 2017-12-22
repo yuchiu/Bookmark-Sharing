@@ -1,30 +1,9 @@
 import React from 'react'
 import {API} from '../../utils'
+import actions from '../../actions'
+import {connect} from 'react-redux'
 
 class Logout extends React.Component {
-    constructor(){
-        super()
-        this.state={
-            currentUser: false
-        }
-    }
-  componentDidMount() {
-      console.log('dasdsdasad')
-    API.get('account/currentuser', null, (err, response) => {
-        console.log('dadasads'+JSON.stringify(response.profile))
-      if (err) {
-        alert(err)
-        return
-      }
-      if (response.profile == null) {
-        this.setState({currentUser: false})
-      }
-      if (response.profile != null) {
-        //user is logged in
-        this.setState({currentUser: true})
-      }
-    })
-  }
   logout(e) {
     e.preventDefault();
     API.get('account/logout', null, (err, response) => {
@@ -33,15 +12,29 @@ class Logout extends React.Component {
         alert(msg)
         return
       }
+      this.props.logoutUser()
     })
+
   }
   render() {
     return (
       <div>
-        {this.state.currentUser && <button onClick={this.logout.bind(this)}>Logout</button>}
+        {this.props.currentUser && <button onClick={this.logout.bind(this)}>Logout</button>}
       </div>
     )
   }
 }
 
-export default Logout
+const stateToProps = (state) => {
+  return {currentUser: state.account.currentUser}
+}
+
+const dispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => {
+      dispatch(actions.logoutUser())
+    }
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(Logout)

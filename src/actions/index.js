@@ -25,6 +25,14 @@ let actions = {
                 })
         }
     },
+    logoutUser: () => {
+        return (dispatch) => {
+                dispatch({
+                    type: constants.LOGOUT_USER,
+                    payload: null
+                })
+        }
+    },
 }
 
 export default actions;
