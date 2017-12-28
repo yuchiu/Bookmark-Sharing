@@ -7,8 +7,7 @@ class Bookmarks extends React.Component {
   constructor() {
     super()
     this.state = {
-      link: "",
-      bookmarks :[]
+      link: ""
     }
   }
   componentDidMount(){
@@ -16,10 +15,8 @@ class Bookmarks extends React.Component {
       if(err){
         return
       }
-      this.setState({
-        bookmarks: response.results
-      })
-      console.log('Bookmarks: '+ JSON.stringify(response))
+      this.props.fetchBookmarks(response.results)
+      console.log('Bookmarks: '+ JSON.stringify(this.props.bookmarks))
     })
   }
   updateLink(e) {
@@ -60,10 +57,9 @@ class Bookmarks extends React.Component {
           <h2>Bookmarks List:</h2>
           <ol>
             {
-              this.state.bookmarks.map((bookmark, i)=>{
-                return (
-                  <li key={bookmark.id}>{bookmark.description}</li>
-                )
+              this.props.bookmarks.map((bookmark, i)=>{
+                return  <li key={bookmark.id}>{bookmark.title}<br/>{bookmark.description}</li>
+                
               })
             }
             </ol>
@@ -74,11 +70,17 @@ class Bookmarks extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {currentUser: state.account.currentUser}
+  return {currentUser: state.accountReducer.currentUser,
+          bookmarks: state.bookmarkReducer.bookmarks
+  }
 }
 
 const dispatchToProps = (dispatch) => {
-  return {}
+  return {
+    fetchBookmarks:(bookmarks)=>{
+      dispatch(actions.fetchBookmarks(bookmarks))
+    }
+  }
 }
 
 export default connect(stateToProps, dispatchToProps)(Bookmarks)

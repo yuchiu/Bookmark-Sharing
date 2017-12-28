@@ -78,7 +78,7 @@ class Admin extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {currentUser: state.account.currentUser}
+  return {currentUser: state.accountReducer.currentUser}
 }
 
 const dispatchToProps = (dispatch) => {

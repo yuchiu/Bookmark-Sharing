@@ -22115,7 +22115,7 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { currentUser: state.account.currentUser };
+	  return { currentUser: state.accountReducer.currentUser };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
@@ -24281,6 +24281,14 @@
 	            });
 	        };
 	    },
+	    fetchBookmarks: function fetchBookmarks(bookmarks) {
+	        return function (dispatch) {
+	            dispatch({
+	                type: _constants2.default.FETCH_BOOKMARKS,
+	                payload: bookmarks
+	            });
+	        };
+	    },
 	    createProfile: function createProfile(profile) {
 	        return function (dispatch) {
 	            dispatch({
@@ -24322,7 +24330,8 @@
 	    FETCH_PROFILES: "FETCH_PROFILES",
 	    CREATE_PROFILE: "CREATE_PROFILE",
 	    FETCH_CURRENTUSER: "FETCH_CURRENTUSER",
-	    LOGOUT_USER: "LOGOUT_USER"
+	    LOGOUT_USER: "LOGOUT_USER",
+	    FETCH_BOOKMARKS: "FETCH_BOOKMARKS"
 	};
 
 /***/ }),
@@ -27163,7 +27172,7 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { profileList: state.profileList.profileList };
+	  return { profileList: state.profileReducer.profileList };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
@@ -27217,8 +27226,7 @@
 	    var _this = _possibleConstructorReturn(this, (Bookmarks.__proto__ || Object.getPrototypeOf(Bookmarks)).call(this));
 	
 	    _this.state = {
-	      link: "",
-	      bookmarks: []
+	      link: ""
 	    };
 	    return _this;
 	  }
@@ -27232,10 +27240,8 @@
 	        if (err) {
 	          return;
 	        }
-	        _this2.setState({
-	          bookmarks: response.results
-	        });
-	        console.log('Bookmarks: ' + JSON.stringify(response));
+	        _this2.props.fetchBookmarks(response.results);
+	        console.log('Bookmarks: ' + JSON.stringify(_this2.props.bookmarks));
 	      });
 	    }
 	  }, {
@@ -27296,10 +27302,12 @@
 	          _react2.default.createElement(
 	            'ol',
 	            null,
-	            this.state.bookmarks.map(function (bookmark, i) {
+	            this.props.bookmarks.map(function (bookmark, i) {
 	              return _react2.default.createElement(
 	                'li',
 	                { key: bookmark.id },
+	                bookmark.title,
+	                _react2.default.createElement('br', null),
 	                bookmark.description
 	              );
 	            })
@@ -27313,11 +27321,17 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { currentUser: state.account.currentUser };
+	  return { currentUser: state.accountReducer.currentUser,
+	    bookmarks: state.bookmarkReducer.bookmarks
+	  };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
-	  return {};
+	  return {
+	    fetchBookmarks: function fetchBookmarks(bookmarks) {
+	      dispatch(_actions2.default.fetchBookmarks(bookmarks));
+	    }
+	  };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Bookmarks);
@@ -27350,8 +27364,9 @@
 	exports.default = {
 		configure: function configure() {
 			var reducers = (0, _redux.combineReducers)({
-				profileList: _reducers.profileReducer,
-				account: _reducers.accountReducer
+				profileReducer: _reducers.profileReducer,
+				accountReducer: _reducers.accountReducer,
+				bookmarkReducer: _reducers.bookmarkReducer
 			});
 			store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 	
@@ -27409,7 +27424,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.profileReducer = exports.accountReducer = undefined;
+	exports.bookmarkReducer = exports.profileReducer = exports.accountReducer = undefined;
 	
 	var _profileReducer = __webpack_require__(250);
 	
@@ -27419,10 +27434,15 @@
 	
 	var _accountReducer2 = _interopRequireDefault(_accountReducer);
 	
+	var _bookmarkReducer = __webpack_require__(252);
+	
+	var _bookmarkReducer2 = _interopRequireDefault(_bookmarkReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.accountReducer = _accountReducer2.default;
 	exports.profileReducer = _profileReducer2.default;
+	exports.bookmarkReducer = _bookmarkReducer2.default;
 
 /***/ }),
 /* 250 */
@@ -27507,6 +27527,42 @@
 	            return newState;
 	            break;
 	
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _constants = __webpack_require__(198);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+	    bookmarks: []
+	};
+	
+	exports.default = function () {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	    var action = arguments[1];
+	
+	    var newState = Object.assign({}, state);
+	
+	    switch (action.type) {
+	        case _constants2.default.FETCH_BOOKMARKS:
+	            newState['bookmarks'] = action.payload;
+	            return newState;
+	            break;
 	        default:
 	            return state;
 	    }

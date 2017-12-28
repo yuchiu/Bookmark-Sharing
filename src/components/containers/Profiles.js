@@ -32,7 +32,7 @@ class Profiles extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {profileList: state.profileList.profileList}
+  return {profileList: state.profileReducer.profileList}
 }
 
 const dispatchToProps = (dispatch) => {
