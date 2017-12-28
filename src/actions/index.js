@@ -9,6 +9,14 @@ let actions = {
                 })
         }
     },
+    selectProfile:(profile) => {
+        return (dispatch) => {
+                dispatch({
+                    type: constants.SELECT_PROFILE,
+                    payload: profile
+                })
+        }
+    },
     fetchBookmarks: (bookmarks) => {
         return (dispatch) => {
                 dispatch({

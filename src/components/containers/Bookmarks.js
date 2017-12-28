@@ -16,7 +16,6 @@ class Bookmarks extends React.Component {
         return
       }
       this.props.fetchBookmarks(response.results)
-      console.log('Bookmarks: '+ JSON.stringify(this.props.bookmarks))
     })
   }
   updateLink(e) {
@@ -58,7 +57,7 @@ class Bookmarks extends React.Component {
           <ol>
             {
               this.props.bookmarks.map((bookmark, i)=>{
-                return  <li key={bookmark.id}>{bookmark.title}<br/>{bookmark.description}</li>
+                return  <li key={bookmark.id}>{bookmark.title}<br/><img src={bookmark.image} width="200px"/><br/>{bookmark.description}</li>
                 
               })
             }

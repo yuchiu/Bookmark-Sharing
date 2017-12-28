@@ -12,13 +12,25 @@ class Profiles extends React.Component {
         .fetchProfiles(results)
     })
   }
+  select(profile, e){
+    event.preventDefault(e)
+    this.props.selectProfile(profile)
+  }
   render() {
     const profileList = this
       .props
       .profileList
       .map((profile, i) => {
+        let name = null
+        if (this.props.selectedProfile == null) {
+          name = <a href="#" onClick={this.select.bind(this, profile)}>{profile.firstName}</a>
+        } else if (this.props.selectedProfile.id == profile.id) {
+          name = <a href="#" onClick={this.select.bind(this, profile)}><strong>{profile.firstName}</strong></a>
+        } else {
+          name = <a href="#" onClick={this.select.bind(this, profile)}>{profile.firstName}</a>
+        }
         return (
-          <li key={profile.id}>{profile.firstName}</li>
+          <li key={profile.id}>{name}</li>
         )
       })
     return (
@@ -32,13 +44,16 @@ class Profiles extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {profileList: state.profileReducer.profileList}
+  return {profileList: state.profileReducer.profileList, selectedProfile: state.profileReducer.selectedProfile}
 }
 
 const dispatchToProps = (dispatch) => {
   return {
     fetchProfiles: (profiles) => {
       dispatch(actions.fetchProfiles(profiles))
+    },
+    selectProfile:(profile)=>{
+      dispatch(actions.selectProfile(profile))
     }
   }
 }

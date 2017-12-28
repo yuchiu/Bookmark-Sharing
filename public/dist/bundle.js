@@ -21945,8 +21945,8 @@
 	        null,
 	        'Bookmark Sharing',
 	        _react2.default.createElement(_containers.Admin, null),
-	        _react2.default.createElement(_containers.Bookmarks, null),
-	        _react2.default.createElement(_containers.Profiles, null)
+	        _react2.default.createElement(_containers.Profiles, null),
+	        _react2.default.createElement(_containers.Bookmarks, null)
 	      );
 	    }
 	  }]);
@@ -24281,6 +24281,14 @@
 	            });
 	        };
 	    },
+	    selectProfile: function selectProfile(profile) {
+	        return function (dispatch) {
+	            dispatch({
+	                type: _constants2.default.SELECT_PROFILE,
+	                payload: profile
+	            });
+	        };
+	    },
 	    fetchBookmarks: function fetchBookmarks(bookmarks) {
 	        return function (dispatch) {
 	            dispatch({
@@ -24331,7 +24339,8 @@
 	    CREATE_PROFILE: "CREATE_PROFILE",
 	    FETCH_CURRENTUSER: "FETCH_CURRENTUSER",
 	    LOGOUT_USER: "LOGOUT_USER",
-	    FETCH_BOOKMARKS: "FETCH_BOOKMARKS"
+	    FETCH_BOOKMARKS: "FETCH_BOOKMARKS",
+	    SELECT_PROFILE: "SELECT_PROFILE"
 	};
 
 /***/ }),
@@ -27142,13 +27151,45 @@
 	      });
 	    }
 	  }, {
+	    key: 'select',
+	    value: function select(profile, e) {
+	      event.preventDefault(e);
+	      this.props.selectProfile(profile);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+	
 	      var profileList = this.props.profileList.map(function (profile, i) {
+	        var name = null;
+	        if (_this3.props.selectedProfile == null) {
+	          name = _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            profile.firstName
+	          );
+	        } else if (_this3.props.selectedProfile.id == profile.id) {
+	          name = _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              profile.firstName
+	            )
+	          );
+	        } else {
+	          name = _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            profile.firstName
+	          );
+	        }
 	        return _react2.default.createElement(
 	          'li',
 	          { key: profile.id },
-	          profile.firstName
+	          name
 	        );
 	      });
 	      return _react2.default.createElement(
@@ -27172,13 +27213,16 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { profileList: state.profileReducer.profileList };
+	  return { profileList: state.profileReducer.profileList, selectedProfile: state.profileReducer.selectedProfile };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
 	  return {
 	    fetchProfiles: function fetchProfiles(profiles) {
 	      dispatch(_actions2.default.fetchProfiles(profiles));
+	    },
+	    selectProfile: function selectProfile(profile) {
+	      dispatch(_actions2.default.selectProfile(profile));
 	    }
 	  };
 	};
@@ -27241,7 +27285,6 @@
 	          return;
 	        }
 	        _this2.props.fetchBookmarks(response.results);
-	        console.log('Bookmarks: ' + JSON.stringify(_this2.props.bookmarks));
 	      });
 	    }
 	  }, {
@@ -27307,6 +27350,8 @@
 	                'li',
 	                { key: bookmark.id },
 	                bookmark.title,
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement('img', { src: bookmark.image, width: '200px' }),
 	                _react2.default.createElement('br', null),
 	                bookmark.description
 	              );
@@ -27461,7 +27506,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-	    profileList: []
+	    profileList: [],
+	    selectedProfile: null
 	};
 	
 	exports.default = function () {
@@ -27479,6 +27525,11 @@
 	            var newProfileList = Object.assign([], state.profileList);
 	            newProfileList.push(action.payload);
 	            newState['profileList'] = newProfileList;
+	            return newState;
+	            break;
+	        case _constants2.default.SELECT_PROFILE:
+	            console.log('reducers ' + JSON.stringify(action.payload));
+	            newState['selectedProfile'] = action.payload;
 	            return newState;
 	            break;
 	        default:

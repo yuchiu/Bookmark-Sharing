@@ -8,8 +8,8 @@ class Home extends React.Component {
       <div>
         Bookmark Sharing
         <Admin/>
-        <Bookmarks/>
         <Profiles/>
+        <Bookmarks/>
       </div>
     )
   }

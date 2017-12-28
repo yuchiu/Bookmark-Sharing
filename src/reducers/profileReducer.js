@@ -1,7 +1,8 @@
 import constants from '../constants'
 
 let initialState = {
-    profileList: []
+    profileList: [],
+    selectedProfile: null
 }
 
 export default (state = initialState, action) => {
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
             let newProfileList = Object.assign([], state.profileList)
             newProfileList.push(action.payload)
             newState['profileList'] = newProfileList
+            return newState
+            break;
+        case constants.SELECT_PROFILE:
+            console.log('reducers ' + JSON.stringify(action.payload))
+            newState['selectedProfile'] = action.payload
             return newState
             break;
         default:
