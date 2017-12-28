@@ -7,8 +7,20 @@ class Bookmarks extends React.Component {
   constructor() {
     super()
     this.state = {
-      link: ""
+      link: "",
+      bookmarks :[]
     }
+  }
+  componentDidMount(){
+    API.get('/api/bookmark', null, (err, response)=>{
+      if(err){
+        return
+      }
+      this.setState({
+        bookmarks: response.results
+      })
+      console.log('Bookmarks: '+ JSON.stringify(response))
+    })
   }
   updateLink(e) {
     e.preventDefault()
@@ -45,7 +57,16 @@ class Bookmarks extends React.Component {
             .bind(this)}>Submit Link</button>
         </div>}
         <div>
-          Bookmarks List
+          <h2>Bookmarks List:</h2>
+          <ol>
+            {
+              this.state.bookmarks.map((bookmark, i)=>{
+                return (
+                  <li key={bookmark.id}>{bookmark.description}</li>
+                )
+              })
+            }
+            </ol>
         </div>
       </div>
     )
