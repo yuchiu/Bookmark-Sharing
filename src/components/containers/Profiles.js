@@ -2,6 +2,7 @@ import React from 'react'
 import {API} from '../../utils/'
 import actions from '../../actions'
 import {connect} from 'react-redux'
+import {Title, ProfileList} from '../presentations/Profiles/'
 
 class Profiles extends React.Component {
   componentDidMount() {
@@ -12,39 +13,30 @@ class Profiles extends React.Component {
         .fetchProfiles(results)
     })
   }
-  select(profile, e){
-    event.preventDefault(e)
-    this.props.selectProfile(profile)
-    const params = {profile:profile.id}
+  onSelect(profile) {
+    this
+      .props
+      .selectProfile(profile)
+    const params = {
+      profile: profile.id
+    }
     API.get('/api/bookmark', params, (err, response) => {
       if (err) {
         return
       }
-      this.props.fetchUserBookmark(response.results)
+      this
+        .props
+        .fetchUserBookmark(response.results)
     })
   }
   render() {
-    const profileList = this
-      .props
-      .profileList
-      .map((profile, i) => {
-        let name = null
-        if (this.props.selectedProfile == null) {
-          name = <a href="#" onClick={this.select.bind(this, profile)}>{profile.firstName}</a>
-        } else if (this.props.selectedProfile.id == profile.id) {
-          name = <a href="#" onClick={this.select.bind(this, profile)}><strong>{profile.firstName}</strong></a>
-        } else {
-          name = <a href="#" onClick={this.select.bind(this, profile)}>{profile.firstName}</a>
-        }
-        return (
-          <li key={profile.id}>{name}</li>
-        )
-      })
     return (
       <div>
-        <h2>Profiles</h2>
-        <ul>{profileList}</ul>
-
+        <Title/>
+        <ProfileList 
+        profileList={this.props.profileList} 
+        selectedProfile={this.props.selectedProfile}
+        onSelect={this.onSelect.bind(this)}/>
       </div>
     )
   }
@@ -59,10 +51,10 @@ const dispatchToProps = (dispatch) => {
     fetchProfiles: (profiles) => {
       dispatch(actions.fetchProfiles(profiles))
     },
-    selectProfile:(profile)=>{
+    selectProfile: (profile) => {
       dispatch(actions.selectProfile(profile))
     },
-    fetchUserBookmark: (userBookmark)=>{
+    fetchUserBookmark: (userBookmark) => {
       dispatch(actions.fetchUserBookmark(userBookmark))
     }
   }

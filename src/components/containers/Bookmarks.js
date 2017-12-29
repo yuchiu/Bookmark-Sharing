@@ -35,7 +35,6 @@ class Bookmarks extends React.Component {
         alert(JSON.stringify(err))
         return
       }
-      console.log('created bookmark : '+JSON.stringify(res))
       this
         .props
         .createBookmark(res.result)
@@ -54,7 +53,9 @@ class Bookmarks extends React.Component {
               onChange={this
               .updateLink
               .bind(this)}
-              placeholder="http://www.example.com"/>
+              placeholder="http://www.example.com"
+              value={this.state.link}
+              />
             <button onClick={this
               .submitLink
               .bind(this)}>Submit Link</button>

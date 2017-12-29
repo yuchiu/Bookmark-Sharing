@@ -20,7 +20,6 @@ export default (state = initialState, action) => {
             return newState
             break;
         case constants.SELECT_PROFILE:
-            console.log('reducers ' + JSON.stringify(action.payload))
             newState['selectedProfile'] = action.payload
             return newState
             break;

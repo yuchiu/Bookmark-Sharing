@@ -21,7 +21,7 @@ class Admin extends React.Component {
       }
     })
   }
-  register(visitor) {
+  onRegister(visitor) {
     API.post('account/register', visitor, (err, response) => {
       if (err) {
         let msg = err.message || err
@@ -33,7 +33,7 @@ class Admin extends React.Component {
         .createProfile(response.profile)
     })
   }
-  login(credentials) {
+  onLogin(credentials) {
     API.post('account/login', credentials, (err, response) => {
       if (err) {
         let msg = err.message || err
@@ -45,7 +45,7 @@ class Admin extends React.Component {
         .createProfile(response.profile)
     })
   }
-  logout() {
+  onLogout() {
     API.get('account/logout', null, (err, response) => {
       if (err) {
         let msg = err.message || err
@@ -62,14 +62,14 @@ class Admin extends React.Component {
         {(this.props.currentUser != null)
           ? <div>
               <Welcome firstName={this.props.currentUser.firstName}/>
-              <Logout onLogout={this.logout.bind(this)}/>
+              <Logout onLogout={this.onLogout.bind(this)}/>
             </div>
 
           : <div>
             <Login
-              onLogin={this.login.bind(this)}/>
+              onLogin={this.onLogin.bind(this)}/>
             <Register
-            onRegister={this.register.bind(this)}/>
+            onRegister={this.onRegister.bind(this)}/>
           </div>
 }
       </div>

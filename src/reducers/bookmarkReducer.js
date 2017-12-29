@@ -15,7 +15,6 @@ export default (state = initialState, action) => {
             break;
         case constants.FETCH_USER_BOOKMARK:
             newState['selectedUserBookmark'] = action.payload
-            console.log(JSON.stringify(newState['selectedUserBookmark']))
             return newState
             break;
         case constants.CREATE_BOOKMARK:
