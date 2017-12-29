@@ -43,7 +43,7 @@ class Profiles extends React.Component {
     return (
       <div>
         <h2>Profiles</h2>
-        <ol>{profileList}</ol>
+        <ul>{profileList}</ul>
 
       </div>
     )

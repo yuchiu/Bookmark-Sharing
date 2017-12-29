@@ -62,7 +62,7 @@ class Bookmarks extends React.Component {
         <h2>Bookmarks List:</h2>
         {(this.props.selectedProfile == null)
           ? <div>
-              <ol>
+              <ul>
                 {this
                   .props
                   .allBookmarks
@@ -71,18 +71,18 @@ class Bookmarks extends React.Component {
 
                   })
 }
-              </ol>
+              </ul>
             </div>
           : <div>
             {this.props.selectedProfile.firstName}
-            <ol>
+            <ul>
               {this
                 .props
                 .selectedUserBookmark
                 .map((bookmark, i) => {
                   return <li key={bookmark.id}>{bookmark.title}<br/><img src={bookmark.image} width="200px"/><br/>{bookmark.description}</li>
                 })}
-            </ol>
+            </ul>
           </div>}
       </div>
     )
