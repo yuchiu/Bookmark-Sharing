@@ -2,14 +2,9 @@ import React from 'react'
 import {API} from '../../utils'
 import actions from '../../actions'
 import {connect} from 'react-redux'
+import {Title, SubmitBookmark, BookmarkList} from '../presentations/Bookmarks'
 
 class Bookmarks extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      link: ""
-    }
-  }
   componentDidMount() {
     API.get('/api/bookmark', null, (err, response) => {
       if (err) {
@@ -20,16 +15,7 @@ class Bookmarks extends React.Component {
         .fetchBookmarks(response.results)
     })
   }
-  updateLink(e) {
-    e.preventDefault()
-    this.setState({link: e.target.value})
-  }
-  submitLink(e) {
-    e.preventDefault()
-    const bookmark = {
-      profile: this.props.currentUser.id,
-      url: this.state.link
-    }
+  onSubmitLink(bookmark) {
     API.post('api/bookmark', bookmark, (err, res) => {
       if (err) {
         alert(JSON.stringify(err))
@@ -39,51 +25,26 @@ class Bookmarks extends React.Component {
         .props
         .createBookmark(res.result)
     })
-
-    this.setState({link: ""})
   }
   render() {
     return (
       <div>
         {(this.props.currentUser == null)
-          ? <h3>Sign in to save your bookmark and share your favorite post!</h3>
+          ? <Title title="sign in to share your favorite Bookmark!"/>
           : <div>
-            <h3>Share your favorite bookmark!</h3>
-            <input
-              onChange={this
-              .updateLink
-              .bind(this)}
-              placeholder="http://www.example.com"
-              value={this.state.link}
-              />
-            <button onClick={this
-              .submitLink
-              .bind(this)}>Submit Link</button>
+            <Title title="Share your favorite Bookmark!"/>
+            <SubmitBookmark
+              currentUser={this.props.currentUser}
+              onSubmitLink={this
+              .onSubmitLink
+              .bind(this)}/>
           </div>}
-        <h2>Bookmarks List:</h2>
+        <Title title="Bookmark List"/> 
         {(this.props.selectedProfile == null)
-          ? <div>
-              <ul>
-                {this
-                  .props
-                  .allBookmarks
-                  .map((bookmark, i) => {
-                    return <li key={bookmark.id}>{bookmark.title}<br/><img src={bookmark.image} width="200px"/><br/>{bookmark.description}</li>
-
-                  })
-}
-              </ul>
-            </div>
+          ? <BookmarkList bookmarkList={this.props.allBookmarks}/>
           : <div>
             {this.props.selectedProfile.firstName}
-            <ul>
-              {this
-                .props
-                .selectedUserBookmark
-                .map((bookmark, i) => {
-                  return <li key={bookmark.id}>{bookmark.title}<br/><img src={bookmark.image} width="200px"/><br/>{bookmark.description}</li>
-                })}
-            </ul>
+            <BookmarkList bookmarkList={this.props.selectedUserBookmarks}/>
           </div>}
       </div>
     )
@@ -91,7 +52,7 @@ class Bookmarks extends React.Component {
 }
 
 const stateToProps = (state) => {
-  return {currentUser: state.accountReducer.currentUser, allBookmarks: state.bookmarkReducer.allBookmarks, selectedProfile: state.profileReducer.selectedProfile, selectedUserBookmark: state.bookmarkReducer.selectedUserBookmark}
+  return {currentUser: state.accountReducer.currentUser, allBookmarks: state.bookmarkReducer.allBookmarks, selectedProfile: state.profileReducer.selectedProfile, selectedUserBookmarks: state.bookmarkReducer.selectedUserBookmarks}
 }
 
 const dispatchToProps = (dispatch) => {
@@ -99,7 +60,7 @@ const dispatchToProps = (dispatch) => {
     fetchBookmarks: (bookmarks) => {
       dispatch(actions.fetchBookmarks(bookmarks))
     },
-    createBookmark: (bookmark)=>{
+    createBookmark: (bookmark) => {
       dispatch(actions.createBookmark(bookmark))
     }
   }

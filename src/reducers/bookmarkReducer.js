@@ -2,7 +2,7 @@ import constants from '../constants'
 
 let initialState = {
     allBookmarks: [],
-    selectedUserBookmark: []
+    selectedUserBookmarks: []
 }
 
 export default (state = initialState, action) => {
@@ -14,17 +14,17 @@ export default (state = initialState, action) => {
             return newState
             break;
         case constants.FETCH_USER_BOOKMARK:
-            newState['selectedUserBookmark'] = action.payload
+            newState['selectedUserBookmarks'] = action.payload
             return newState
             break;
         case constants.CREATE_BOOKMARK:
             let newAllBookmarks = Object.assign([], state.allBookmarks)
             newAllBookmarks.push(action.payload)
             newState['allBookmarks'] = newAllBookmarks
-            if (newState['selectedUserBookmark'] && newState['selectedUserBookmark'].length) {
-                let newselectedUserBookmark = Object.assign([], state.selectedUserBookmark)
-                newselectedUserBookmark.push(action.payload)
-                newState['selectedUserBookmark'] = newselectedUserBookmark
+            if (newState['selectedUserBookmarks'] && newState['selectedUserBookmarks'].length) {
+                let newselectedUserBookmarks = Object.assign([], state.selectedUserBookmarks)
+                newselectedUserBookmarks.push(action.payload)
+                newState['selectedUserBookmarks'] = newselectedUserBookmarks
             }
             return newState
             break;
