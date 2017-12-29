@@ -15,6 +15,13 @@ class Profiles extends React.Component {
   select(profile, e){
     event.preventDefault(e)
     this.props.selectProfile(profile)
+    const params = {profile:profile.id}
+    API.get('/api/bookmark', params, (err, response) => {
+      if (err) {
+        return
+      }
+      this.props.fetchUserBookmark(response.results)
+    })
   }
   render() {
     const profileList = this
@@ -54,6 +61,9 @@ const dispatchToProps = (dispatch) => {
     },
     selectProfile:(profile)=>{
       dispatch(actions.selectProfile(profile))
+    },
+    fetchUserBookmark: (userBookmark)=>{
+      dispatch(actions.fetchUserBookmark(userBookmark))
     }
   }
 }

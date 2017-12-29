@@ -17,6 +17,22 @@ let actions = {
                 })
         }
     },
+    fetchUserBookmark: (userBookmark)=>{
+        return (dispatch) => {
+                dispatch({
+                    type: constants.FETCH_USER_BOOKMARK,
+                    payload: userBookmark
+                })
+        }
+    },
+    createBookmark:(bookmark)=>{
+        return (dispatch) => {
+                dispatch({
+                    type: constants.CREATE_BOOKMARK,
+                    payload: bookmark
+                })
+        }
+    },
     fetchBookmarks: (bookmarks) => {
         return (dispatch) => {
                 dispatch({

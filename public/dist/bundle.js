@@ -24289,6 +24289,22 @@
 	            });
 	        };
 	    },
+	    fetchUserBookmark: function fetchUserBookmark(userBookmark) {
+	        return function (dispatch) {
+	            dispatch({
+	                type: _constants2.default.FETCH_USER_BOOKMARK,
+	                payload: userBookmark
+	            });
+	        };
+	    },
+	    createBookmark: function createBookmark(bookmark) {
+	        return function (dispatch) {
+	            dispatch({
+	                type: _constants2.default.CREATE_BOOKMARK,
+	                payload: bookmark
+	            });
+	        };
+	    },
 	    fetchBookmarks: function fetchBookmarks(bookmarks) {
 	        return function (dispatch) {
 	            dispatch({
@@ -24340,7 +24356,9 @@
 	    FETCH_CURRENTUSER: "FETCH_CURRENTUSER",
 	    LOGOUT_USER: "LOGOUT_USER",
 	    FETCH_BOOKMARKS: "FETCH_BOOKMARKS",
-	    SELECT_PROFILE: "SELECT_PROFILE"
+	    SELECT_PROFILE: "SELECT_PROFILE",
+	    FETCH_USER_BOOKMARK: "FETCH_USER_BOOKMARK",
+	    CREATE_BOOKMARK: "CREATE_BOOKMARK"
 	};
 
 /***/ }),
@@ -27153,26 +27171,35 @@
 	  }, {
 	    key: 'select',
 	    value: function select(profile, e) {
+	      var _this3 = this;
+	
 	      event.preventDefault(e);
 	      this.props.selectProfile(profile);
+	      var params = { profile: profile.id };
+	      _utils.API.get('/api/bookmark', params, function (err, response) {
+	        if (err) {
+	          return;
+	        }
+	        _this3.props.fetchUserBookmark(response.results);
+	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      var profileList = this.props.profileList.map(function (profile, i) {
 	        var name = null;
-	        if (_this3.props.selectedProfile == null) {
+	        if (_this4.props.selectedProfile == null) {
 	          name = _react2.default.createElement(
 	            'a',
-	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            { href: '#', onClick: _this4.select.bind(_this4, profile) },
 	            profile.firstName
 	          );
-	        } else if (_this3.props.selectedProfile.id == profile.id) {
+	        } else if (_this4.props.selectedProfile.id == profile.id) {
 	          name = _react2.default.createElement(
 	            'a',
-	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            { href: '#', onClick: _this4.select.bind(_this4, profile) },
 	            _react2.default.createElement(
 	              'strong',
 	              null,
@@ -27182,7 +27209,7 @@
 	        } else {
 	          name = _react2.default.createElement(
 	            'a',
-	            { href: '#', onClick: _this3.select.bind(_this3, profile) },
+	            { href: '#', onClick: _this4.select.bind(_this4, profile) },
 	            profile.firstName
 	          );
 	        }
@@ -27223,6 +27250,9 @@
 	    },
 	    selectProfile: function selectProfile(profile) {
 	      dispatch(_actions2.default.selectProfile(profile));
+	    },
+	    fetchUserBookmark: function fetchUserBookmark(userBookmark) {
+	      dispatch(_actions2.default.fetchUserBookmark(userBookmark));
 	    }
 	  };
 	};
@@ -27296,6 +27326,8 @@
 	  }, {
 	    key: 'submitLink',
 	    value: function submitLink(e) {
+	      var _this3 = this;
+	
 	      e.preventDefault();
 	      var bookmark = {
 	        profile: this.props.currentUser.id,
@@ -27306,7 +27338,7 @@
 	          alert(JSON.stringify(err));
 	          return;
 	        }
-	        console.log('submit link ' + JSON.stringify(res));
+	        _this3.props.createBookmark(res);
 	      });
 	
 	      this.setState({ link: "" });
@@ -27317,14 +27349,18 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        this.props.currentUser == null && _react2.default.createElement(
+	        this.props.currentUser == null ? _react2.default.createElement(
 	          'h3',
 	          null,
 	          'Sign in to save your bookmark and share your favorite post!'
-	        ),
-	        this.props.currentUser != null && _react2.default.createElement(
+	        ) : _react2.default.createElement(
 	          'div',
 	          null,
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Share your favorite bookmark!'
+	          ),
 	          _react2.default.createElement('input', {
 	            onChange: this.updateLink.bind(this),
 	            placeholder: 'http://www.example.com' }),
@@ -27335,17 +27371,17 @@
 	          )
 	        ),
 	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Bookmarks List:'
+	        ),
+	        this.props.selectedProfile == null ? _react2.default.createElement(
 	          'div',
 	          null,
 	          _react2.default.createElement(
-	            'h2',
-	            null,
-	            'Bookmarks List:'
-	          ),
-	          _react2.default.createElement(
 	            'ol',
 	            null,
-	            this.props.bookmarks.map(function (bookmark, i) {
+	            this.props.allBookmarks.map(function (bookmark, i) {
 	              return _react2.default.createElement(
 	                'li',
 	                { key: bookmark.id },
@@ -27354,6 +27390,21 @@
 	                _react2.default.createElement('img', { src: bookmark.image, width: '200px' }),
 	                _react2.default.createElement('br', null),
 	                bookmark.description
+	              );
+	            })
+	          )
+	        ) : _react2.default.createElement(
+	          'div',
+	          null,
+	          this.props.selectedProfile.firstName,
+	          _react2.default.createElement(
+	            'ol',
+	            null,
+	            this.props.selectedUserBookmark.map(function (bookmark, i) {
+	              return _react2.default.createElement(
+	                'li',
+	                { key: bookmark.id },
+	                bookmark.url
 	              );
 	            })
 	          )
@@ -27366,15 +27417,16 @@
 	}(_react2.default.Component);
 	
 	var stateToProps = function stateToProps(state) {
-	  return { currentUser: state.accountReducer.currentUser,
-	    bookmarks: state.bookmarkReducer.bookmarks
-	  };
+	  return { currentUser: state.accountReducer.currentUser, allBookmarks: state.bookmarkReducer.allBookmarks, selectedProfile: state.profileReducer.selectedProfile, selectedUserBookmark: state.bookmarkReducer.selectedUserBookmark };
 	};
 	
 	var dispatchToProps = function dispatchToProps(dispatch) {
 	  return {
 	    fetchBookmarks: function fetchBookmarks(bookmarks) {
 	      dispatch(_actions2.default.fetchBookmarks(bookmarks));
+	    },
+	    createBookmark: function createBookmark(bookmark) {
+	      dispatch(_actions2.default.createBookmark(bookmark));
 	    }
 	  };
 	};
@@ -27600,7 +27652,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-	    bookmarks: []
+	    allBookmarks: [],
+	    selectedUserBookmark: []
 	};
 	
 	exports.default = function () {
@@ -27611,7 +27664,12 @@
 	
 	    switch (action.type) {
 	        case _constants2.default.FETCH_BOOKMARKS:
-	            newState['bookmarks'] = action.payload;
+	            newState['allBookmarks'] = action.payload;
+	            return newState;
+	            break;
+	        case _constants2.default.FETCH_USER_BOOKMARK:
+	            newState['selectedUserBookmark'] = action.payload;
+	            console.log(JSON.stringify(newState['selectedUserBookmark']));
 	            return newState;
 	            break;
 	        default:

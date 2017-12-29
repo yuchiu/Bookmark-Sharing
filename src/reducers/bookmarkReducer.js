@@ -1,7 +1,8 @@
 import constants from '../constants'
 
 let initialState = {
-    bookmarks: []
+    allBookmarks: [],
+    selectedUserBookmark: []
 }
 
 export default (state = initialState, action) => {
@@ -9,7 +10,12 @@ export default (state = initialState, action) => {
 
     switch (action.type) {
         case constants.FETCH_BOOKMARKS:
-            newState['bookmarks'] = action.payload
+            newState['allBookmarks'] = action.payload
+            return newState
+            break;
+        case constants.FETCH_USER_BOOKMARK:
+            newState['selectedUserBookmark'] = action.payload
+            console.log(JSON.stringify(newState['selectedUserBookmark']))
             return newState
             break;
         default:
