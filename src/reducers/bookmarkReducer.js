@@ -18,6 +18,17 @@ export default (state = initialState, action) => {
             console.log(JSON.stringify(newState['selectedUserBookmark']))
             return newState
             break;
+        case constants.CREATE_BOOKMARK:
+            let newAllBookmarks = Object.assign([], state.allBookmarks)
+            newAllBookmarks.push(action.payload)
+            newState['allBookmarks'] = newAllBookmarks
+            if (newState['selectedUserBookmark'] && newState['selectedUserBookmark'].length) {
+                let newselectedUserBookmark = Object.assign([], state.selectedUserBookmark)
+                newselectedUserBookmark.push(action.payload)
+                newState['selectedUserBookmark'] = newselectedUserBookmark
+            }
+            return newState
+            break;
         default:
             return state
     }

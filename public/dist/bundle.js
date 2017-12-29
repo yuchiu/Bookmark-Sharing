@@ -27338,7 +27338,8 @@
 	          alert(JSON.stringify(err));
 	          return;
 	        }
-	        _this3.props.createBookmark(res);
+	        console.log('created bookmark : ' + JSON.stringify(res));
+	        _this3.props.createBookmark(res.result);
 	      });
 	
 	      this.setState({ link: "" });
@@ -27404,7 +27405,11 @@
 	              return _react2.default.createElement(
 	                'li',
 	                { key: bookmark.id },
-	                bookmark.url
+	                bookmark.title,
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement('img', { src: bookmark.image, width: '200px' }),
+	                _react2.default.createElement('br', null),
+	                bookmark.description
 	              );
 	            })
 	          )
@@ -27670,6 +27675,17 @@
 	        case _constants2.default.FETCH_USER_BOOKMARK:
 	            newState['selectedUserBookmark'] = action.payload;
 	            console.log(JSON.stringify(newState['selectedUserBookmark']));
+	            return newState;
+	            break;
+	        case _constants2.default.CREATE_BOOKMARK:
+	            var newAllBookmarks = Object.assign([], state.allBookmarks);
+	            newAllBookmarks.push(action.payload);
+	            newState['allBookmarks'] = newAllBookmarks;
+	            if (newState['selectedUserBookmark'] && newState['selectedUserBookmark'].length) {
+	                var newselectedUserBookmark = Object.assign([], state.selectedUserBookmark);
+	                newselectedUserBookmark.push(action.payload);
+	                newState['selectedUserBookmark'] = newselectedUserBookmark;
+	            }
 	            return newState;
 	            break;
 	        default:

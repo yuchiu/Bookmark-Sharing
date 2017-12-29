@@ -35,9 +35,10 @@ class Bookmarks extends React.Component {
         alert(JSON.stringify(err))
         return
       }
+      console.log('created bookmark : '+JSON.stringify(res))
       this
         .props
-        .createBookmark(res)
+        .createBookmark(res.result)
     })
 
     this.setState({link: ""})
@@ -79,7 +80,7 @@ class Bookmarks extends React.Component {
                 .props
                 .selectedUserBookmark
                 .map((bookmark, i) => {
-                  return <li key={bookmark.id}>{bookmark.url}</li>
+                  return <li key={bookmark.id}>{bookmark.title}<br/><img src={bookmark.image} width="200px"/><br/>{bookmark.description}</li>
                 })}
             </ol>
           </div>}
