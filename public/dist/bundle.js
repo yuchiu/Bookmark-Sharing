@@ -28331,7 +28331,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { className: 'navbar-brand', href: '#' },
+	          { className: 'navbar-brand', href: './' },
 	          'Bookmark Sharing'
 	        ),
 	        _react2.default.createElement(
