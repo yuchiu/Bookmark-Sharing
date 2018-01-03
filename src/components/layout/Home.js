@@ -1,15 +1,20 @@
 import React from 'react'
-import {Admin, Profiles,Bookmarks} from '../containers/'
+import {NavBar, Profiles, Bookmarks} from '../containers/'
 
 class Home extends React.Component {
 
   render() {
     return (
       <div>
-        Bookmark Sharing
-        <Admin/>
-        <Profiles/>
-        <Bookmarks/>
+        <NavBar/>
+        <div className="row">
+          <div className="col-md-2 ml-1">
+          <Profiles/>
+        </div>
+          <div className="col-md-9 ">
+          <Bookmarks/>
+        </div>
+        </div>
       </div>
     )
   }

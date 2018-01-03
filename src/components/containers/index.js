@@ -1,9 +1,9 @@
-import Admin from './Admin'
+import NavBar from './NavBar'
 import Profiles from './Profiles'
 import Bookmarks from './Bookmarks'
 
 export{
     Profiles,
-    Admin,
+    NavBar,
     Bookmarks
 }

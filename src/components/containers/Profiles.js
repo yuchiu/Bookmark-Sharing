@@ -31,7 +31,7 @@ class Profiles extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id="profiles-container">
         <Title/>
         <ProfileList 
         profileList={this.props.profileList} 

@@ -31,9 +31,9 @@ class SubmitBookmark extends React.Component {
         placeholder="http://www.example.com"
         value={this.state.link}/>
 
-        <button onClick={this
+        <button className="btn btn-primary ml-2" onClick={this
           .submitLink
-          .bind(this)}>Submit Link</button>
+          .bind(this)}>Share</button>
       </div>
     )
   }

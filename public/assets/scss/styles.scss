@@ -1,7 +1,12 @@
 @import 'vars';
 @import 'mixins';
-body{
-    padding: 30px;
-    color: $deepblue;
-    text-align: center;
+body {
+    text-decoration: none;
+}
+ul{
+    
+    list-style: none;
+}
+button{
+    cursor: pointer;
 }

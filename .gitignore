@@ -2,4 +2,3 @@ node_modules
 .vs
 .vscode
 .DS_Store
-public/dist

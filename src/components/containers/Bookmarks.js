@@ -28,22 +28,23 @@ class Bookmarks extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id="bookmarks-container">
         {(this.props.currentUser == null)
-          ? <Title title="sign in to share your favorite Bookmark!"/>
+          ? <Title title="Sign in to share Bookmark."/>
           : <div>
-            <Title title="Share your favorite Bookmark!"/>
             <SubmitBookmark
               currentUser={this.props.currentUser}
               onSubmitLink={this
               .onSubmitLink
               .bind(this)}/>
           </div>}
-        <Title title="Bookmark List"/> 
         {(this.props.selectedProfile == null)
-          ? <BookmarkList bookmarkList={this.props.allBookmarks}/>
+          ? <div>
+          <Title title="Bookmark List"/> 
+          <BookmarkList bookmarkList={this.props.allBookmarks}/>
+          </div>
           : <div>
-            {this.props.selectedProfile.firstName}
+            <strong>{this.props.selectedProfile.firstName}'s Bookmark List:</strong>
             <BookmarkList bookmarkList={this.props.selectedUserBookmarks}/>
           </div>}
       </div>

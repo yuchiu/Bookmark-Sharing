@@ -19,21 +19,21 @@ class ProfileList extends React.Component {
                 href="#"
                 onClick={this
                 .select
-                .bind(this, profile)}>{profile.firstName}</a>
+                .bind(this, profile)}>{profile.lastName}, {profile.firstName}</a>
             } else if (this.props.selectedProfile.id == profile.id) {
               name = <a
                 href="#"
                 onClick={this
                 .select
                 .bind(this, profile)}>
-                <strong>{profile.firstName}</strong>
+                <strong>{profile.lastName}, {profile.firstName}</strong>
               </a>
             } else {
               name = <a
                 href="#"
                 onClick={this
                 .select
-                .bind(this, profile)}>{profile.firstName}</a>
+                .bind(this, profile)}>{profile.lastName}, {profile.firstName}</a>
             }
             return (
               <Profile key={profile.id} name={name}/>

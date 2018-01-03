@@ -2,9 +2,9 @@ import React from 'react'
 import {API} from '../../utils'
 import actions from '../../actions'
 import {connect} from 'react-redux'
-import {Login, Logout, Register, Welcome} from '../presentations/Admin/'
+import {Login, Logout, Register, Welcome} from '../presentations/NavBar/'
 
-class Admin extends React.Component {
+class NavBar extends React.Component {
   componentDidMount() {
     API.get('account/currentuser', null, (err, response) => {
       if (err) {
@@ -52,27 +52,59 @@ class Admin extends React.Component {
         alert(msg)
         return
       }
-      this.props.logoutUser()
+      this
+        .props
+        .logoutUser()
     })
 
   }
+  /* <nav className="navbar navbar-inverse bg-inverse">
+  <a id="header-title" href="./">Bookmark Sharing</a>
+
+  </nav>  */
   render() {
     return (
-      <div>
-        {(this.props.currentUser != null)
-          ? <div>
-              <Welcome firstName={this.props.currentUser.firstName}/>
-              <Logout onLogout={this.onLogout.bind(this)}/>
-            </div>
 
-          : <div>
-            <Login
-              onLogin={this.onLogin.bind(this)}/>
-            <Register
-            onRegister={this.onRegister.bind(this)}/>
+      <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+        <button
+          className="navbar-toggler navbar-toggler-right"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <a className="navbar-brand" href="#">Bookmark Sharing</a>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto"></ul>
+          <div className=" my-2 my-lg-0">
+            {this.props.currentUser && <div>
+              <Welcome firstName={this.props.currentUser.firstName}/>
+              <Logout onLogout={this
+                .onLogout
+                .bind(this)}/>
+            </div>}
+
+            {!this.props.currentUser && <div>
+              <Login 
+              className="nav-item"
+              onLogin={this
+                .onLogin
+                .bind(this)}/>
+              <Register
+              className="nav-item"
+                onRegister={this
+                .onRegister
+                .bind(this)}/>
+            </div>}
+
           </div>
-}
-      </div>
+        </div>
+      </nav>
+
     )
   }
 }
@@ -95,4 +127,4 @@ const dispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(stateToProps, dispatchToProps)(Admin)
+export default connect(stateToProps, dispatchToProps)(NavBar)
