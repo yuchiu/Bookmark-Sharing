@@ -65,7 +65,7 @@ class NavBar extends React.Component {
   render() {
     return (
 
-      <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+      <nav id="navbar-container"className="navbar navbar-toggleable-md navbar-light bg-faded">
         <button
           className="navbar-toggler navbar-toggler-right"
           type="button"
@@ -81,21 +81,18 @@ class NavBar extends React.Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto"></ul>
           <div className=" my-2 my-lg-0">
-            {this.props.currentUser && <div>
+            {this.props.currentUser && <div className="navbar-right">
               <Welcome firstName={this.props.currentUser.firstName}/>
               <Logout onLogout={this
                 .onLogout
                 .bind(this)}/>
             </div>}
 
-            {!this.props.currentUser && <div>
-              <Login 
-              className="nav-item"
-              onLogin={this
+            {!this.props.currentUser && <div className="navbar-right">
+              <Login onLogin={this
                 .onLogin
                 .bind(this)}/>
               <Register
-              className="nav-item"
                 onRegister={this
                 .onRegister
                 .bind(this)}/>

@@ -40,7 +40,7 @@ class Bookmarks extends React.Component {
           </div>}
         {(this.props.selectedProfile == null)
           ? <div>
-          <Title title="Bookmark List"/> 
+          <Title title="Bookmarks Shared By Users"/> 
           <BookmarkList bookmarkList={this.props.allBookmarks}/>
           </div>
           : <div>

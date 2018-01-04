@@ -42,31 +42,49 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        {!this.props.currentUser && <button  type="button" className="btn btn-outline-info " onClick={this.openModal}>
+        {!this.props.currentUser && <button
+          type="button"
+          className="btn btn-outline-info navbar-right-item"
+          onClick={this.openModal}>
           Login
         </button>
 }
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          contentLabel='edit Recipe'
+          contentLabel='Log In'
           style={styles}>
           <div>
             <h2>Login</h2>
-            <input
-              type="text"
-              onChange={this
-              .updateVisitor
-              .bind(this, 'email')}
-              placeholder="email"/>
-            <input
-              type="password"
-              id="password"
-              onChange={this
-              .updateVisitor
-              .bind(this, 'password')}
-              placeholder=""/>
-            <button onClick={this
+            <div className="input-group">
+              <span className="input-group-addon" id="basic-addon3">email:
+              </span>
+              <input
+                type="text"
+                onChange={this
+                .updateVisitor
+                .bind(this, 'email')}
+                placeholder="example@gmail.com"
+                className="form-control"
+                aria-describedby="basic-addon3"/>
+            </div>
+            <div className="input-group">
+              <span className="input-group-addon" id="basic-addon3">password:
+              </span>
+              <input
+                type="password"
+                id="password"
+                onChange={this
+                .updateVisitor
+                .bind(this, 'password')}
+                placeholder="********"
+                className="form-control"
+                aria-describedby="basic-addon3"/>
+            </div>
+
+            <button
+              className="btn btn-primary"
+              onClick={this
               .login
               .bind(this)}>Log In</button>
           </div>

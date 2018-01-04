@@ -24,16 +24,25 @@ class SubmitBookmark extends React.Component {
   }
   render() {
     return (
-      <div><input
-        onChange={this
-        .updateLink
-        .bind(this)}
-        placeholder="http://www.example.com"
-        value={this.state.link}/>
+      <div id="submit-bookmark-contianer">
+        <div className="input-group ">
+          <input
+            className="form-control"
+            onChange={this
+            .updateLink
+            .bind(this)}
+            placeholder="http://www.example.com"
+            value={this.state.link}/>
 
-        <button className="btn btn-primary ml-2" onClick={this
-          .submitLink
-          .bind(this)}>Share</button>
+          <span className="input-group-btn">
+            <button
+              className="btn btn-primary ml-2"
+              type="button"
+              onClick={this
+              .submitLink
+              .bind(this)}>Share!</button>
+          </span>
+        </div>
       </div>
     )
   }

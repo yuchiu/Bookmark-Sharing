@@ -3,7 +3,7 @@ import React from 'react'
 class Welcome extends React.Component {
   render() {
     return (
-      <div>
+      <div id="welcome-message"className="navbar-right-item">
         Welcome, {this.props.firstName}
      </div>
     )

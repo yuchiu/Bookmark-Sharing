@@ -4,7 +4,7 @@ import Bookmark from './Bookmark'
 class BookmarkList extends React.Component {
   render() {
     return (
-      <ul>
+      <ul id="bookmark-list">
         {this
           .props
           .bookmarkList

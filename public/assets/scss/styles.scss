@@ -1,5 +1,9 @@
 @import 'vars';
 @import 'mixins';
+@import './components/navbar';
+@import './components/profiles';
+@import './components/bookmarks';
+
 body {
     text-decoration: none;
 }
@@ -9,4 +13,8 @@ ul{
 }
 button{
     cursor: pointer;
+}
+
+#navbar-container{
+    margin-bottom: 20px;
 }

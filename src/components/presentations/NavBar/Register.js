@@ -54,44 +54,77 @@ class Register extends React.Component {
         {(this.props.currentUser != null)
           ? <h2>Welcome {this.props.currentUser.firstName}</h2>
           : <div>
-            <button className="btn btn-outline-success " onClick={this.openModal}>
+            <button className="btn btn-outline-success navbar-right-item" onClick={this.openModal}>
               Register
             </button>
             <Modal
               isOpen={this.state.modalIsOpen}
               onRequestClose={this.closeModal}
-              contentLabel='edit Recipe'
+              contentLabel='Register'
               style={styles}>
               <h2>Register</h2>
-              <input
-                type="text"
-                onChange={this
-                .updateVisitor
-                .bind(this, 'firstName')}
-                value={this.state.visitor.firstName}
-                placeholder="first Name"/>
-              <input
-                type="text"
-                onChange={this
-                .updateVisitor
-                .bind(this, 'lastName')}
-                value={this.state.visitor.lastName}
-                placeholder="last Name"/>
-              <input
-                type="text"
-                onChange={this
-                .updateVisitor
-                .bind(this, 'email')}
-                value={this.state.visitor.email}
-                placeholder="email"/>
-              <input
-                type="password"
-                onChange={this
-                .updateVisitor
-                .bind(this, 'password')}
-                value={this.state.visitor.password}
-                placeholder=""/>
-              <button onClick={this
+
+              <div className="input-group">
+                <span className="input-group-addon" id="basic-addon3">first Name:
+                </span>
+                <input
+                  type="text"
+                  onChange={this
+                  .updateVisitor
+                  .bind(this, 'firstName')}
+                  value={this.state.visitor.firstName}
+                  placeholder="John"
+                  className="form-control"
+                  aria-describedby="basic-addon3"/>
+              </div>
+
+              <div className="input-group">
+                <span className="input-group-addon" id="basic-addon3">last Name:
+                </span>
+                <input
+                  type="text"
+                  onChange={this
+                  .updateVisitor
+                  .bind(this, 'lastName')}
+                  value={this.state.visitor.lastName}
+                  placeholder="Doe"
+                  className="form-control"
+                  aria-describedby="basic-addon3"/>
+              </div>
+
+              <div className="input-group">
+                <span className="input-group-addon" id="basic-addon3">email:
+                </span>
+
+                <input
+                  type="text"
+                  onChange={this
+                  .updateVisitor
+                  .bind(this, 'email')}
+                  value={this.state.visitor.email}
+                  placeholder="example@gmail.com"
+                  className="form-control"
+                  aria-describedby="basic-addon3"/>
+              </div>
+
+              <div className="input-group">
+                <span className="input-group-addon" id="basic-addon3">password:
+                </span>
+
+                <input
+                  type="password"
+                  onChange={this
+                  .updateVisitor
+                  .bind(this, 'password')}
+                  value={this.state.visitor.password}
+                  placeholder="********"
+                  className="form-control"
+                  aria-describedby="basic-addon3"/>
+              </div>
+
+              <button
+                className="btn btn-primary"
+                onClick={this
                 .register
                 .bind(this)}>Register</button>
             </Modal>

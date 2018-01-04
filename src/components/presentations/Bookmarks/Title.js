@@ -3,7 +3,7 @@ import React from 'react'
 class Title extends React.Component{
     render(){
         return (
-            <h3>{this.props.title}</h3>
+            <h3 id="bookmark-section-title">{this.props.title}</h3>
         )
     }
 }
